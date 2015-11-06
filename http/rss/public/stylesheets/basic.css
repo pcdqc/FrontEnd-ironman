@@ -1,0 +1,14 @@
+*{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+body{
+		width: 500px;
+		margin: auto;
+		font-family: "Microsoft YaHei";
+		font-size: 28px;
+
+	}
+a{color: blue;}
+a:hover{color: #b2b2b2;};

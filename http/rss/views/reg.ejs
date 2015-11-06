@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <title><%= title %></title>
+    
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <%- include header %>
+    <h1>Reg</h1>
+     <form method="post">
+        用户名：<input type="text" name="name" /><br />
+        密码 ：<input type="password" name="password" /><br />
+        确认密码:<input type="password" name="password-repeat" /><br />
+        邮箱:<input type="email" name="email" /><br />
+        身份: seller:<input type="radio" name="role" value="seller" /> 
+              bougher:<input type="radio" name="role" value="bougher" /><br />
+            <input type="submit" value="注册">
+    </form>
+ 
+    <%- include footer %>
+  </body>
+</html>

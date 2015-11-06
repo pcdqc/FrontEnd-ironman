@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+	<link rel='stylesheet' href='/stylesheets/style.css' />
+	<link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.min.css" />
+  </head>
+  <body>
+  	<%- include header %>
+  	<%items.forEach(function(item,index){ %>
+  		<p><h2><%= item.title %></h2></p>
+  		<p class="info">
+  			编号：<%= item.id %> |
+  			日期: <%= item.time.day %> |
+  			价格: <%= item.price %> |
+  			数量: <%= item.number %> |
+  			图片: <%= item.img %> |
+  			描述: <%= item.description %> |
+
+  		</p>
+  		<p><%- item.item %></p>
+  	<% }) %>
+   	<%- include footer %>
+  </body>
+</html>

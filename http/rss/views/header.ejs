@@ -1,0 +1,20 @@
+<nav>
+	<span><a title="主页" href="/">Home |</a></span>
+	<% if(user) {%>
+
+		<span><a title="购买" href="/buy">Buy |</a></span>
+		<span><a title="出售" href="/sell">Sell |</a></span>
+		<span><a title="登出" href="/logout">Logout   </a></span>
+	<%} else {%>
+		<span><a title="登录" href="/login">Login |</a></span>
+		<span><a title="注册" href="/reg">Register  </a></span>
+	<% } %>
+</nav>
+
+<article>
+<% if (success) { %>
+  <div><%= success %></div>
+<% } %>
+<% if (error) { %>
+  <div><%= error %> </div>
+<% } %>

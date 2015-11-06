@@ -1,0 +1,25 @@
+*{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+#header{
+	color: blue;
+	width: 80%;
+	height: 80px;
+	margin: auto;
+	border: 2px solid blue;
+	font-size: 28px;
+	text-align: center;
+}
+#header  {
+	display: block;
+	font-size: 18px;
+	font-family: "Microsoft YaHei";
+	/*float: left*/
+}
+#header   li{
+	float: left;
+	display: inline-block;
+	margin: 20px;
+}

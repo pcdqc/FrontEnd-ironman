@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= item %></title>
+	<link rel='stylesheet' href='/stylesheets/style.css' />
+	<link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="/stylesheets/basic.css" />
+	 
+  </head>
+  <body>
+  	<%- include header %>
+  	<form method="post">
+	   	编号:<input type="text" name="id" class="form-control"/> 
+		价格:<input type="text" name="price" class="form-control"/>
+		 
+		数量:<input type="text" name="number" class="form-control"/>  
+		图片:<input type="file" class="form-control"   name="img" id="img" /> 
+			<button id="btnSub" class="btn btn-md btn-primary" id="btnImg">upload</button><br />
+		描述:<input type="text" class="form-control"   name="description" /> 
+			<input type="submit" value="添加" class="btn btn-lg btn-default">
+	</form>
+   	<%- include footer %>
+  </body>
+</html>
