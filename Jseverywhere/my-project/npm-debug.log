@@ -1,0 +1,49 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'D:\\Program Files\\nodejs\\node.exe',
+1 verbose cli   'D:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   'package.json' ]
+2 info using npm@2.14.7
+3 info using node@v4.2.1
+4 verbose install initial load of F:\baifendian\jseverywhere\my-project\package.json
+5 warn package.json file-explorer@0.0.1 No description
+6 warn package.json file-explorer@0.0.1 No repository field.
+7 warn package.json file-explorer@0.0.1 No README data
+8 warn package.json file-explorer@0.0.1 No license field.
+9 warn package.json file-explorer@0.0.1 No bin file found at ./path/to/script
+10 verbose installManyTop reading scoped package data from F:\baifendian\jseverywhere\my-project\node_modules\colors\package.json
+11 verbose readDependencies loading dependencies from F:\baifendian\jseverywhere\my-project\package.json
+12 silly cache add args [ 'package.json', null ]
+13 verbose cache add spec package.json
+14 silly cache add parsed spec Result {
+14 silly cache add   raw: 'package.json',
+14 silly cache add   scope: null,
+14 silly cache add   name: null,
+14 silly cache add   rawSpec: 'package.json',
+14 silly cache add   spec: 'F:\\baifendian\\jseverywhere\\my-project\\package.json',
+14 silly cache add   type: 'local' }
+15 silly addLocalTarball shasum (computed) 562ee1df841289cec33d007b34834445d3e62786
+16 verbose addTmpTarball F:\baifendian\jseverywhere\my-project\package.json not in flight; adding
+17 verbose addTmpTarball validating metadata from F:\baifendian\jseverywhere\my-project\package.json
+18 verbose tar unpack F:\baifendian\jseverywhere\my-project\package.json
+19 verbose tar unpacking to C:\Users\BFD_632\AppData\Local\Temp\npm-12584-d3e72bb7\unpack-ad7eafa69bd4
+20 silly gentlyRm C:\Users\BFD_632\AppData\Local\Temp\npm-12584-d3e72bb7\unpack-ad7eafa69bd4 is being purged
+21 verbose gentlyRm don't care about contents; nuking C:\Users\BFD_632\AppData\Local\Temp\npm-12584-d3e72bb7\unpack-ad7eafa69bd4
+22 silly gunzTarPerm modes [ '777', '666' ]
+23 error not a package F:\baifendian\jseverywhere\my-project\package.json
+24 error addLocal Could not install F:\baifendian\jseverywhere\my-project\package.json
+25 verbose stack Error: ENOENT: no such file or directory, open 'C:\Users\BFD_632\AppData\Local\Temp\npm-12584-d3e72bb7\unpack-ad7eafa69bd4\package.json'
+25 verbose stack     at Error (native)
+26 verbose cwd F:\baifendian\jseverywhere\my-project
+27 error Windows_NT 6.1.7601
+28 error argv "D:\\Program Files\\nodejs\\node.exe" "D:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "package.json"
+29 error node v4.2.1
+30 error npm  v2.14.7
+31 error path C:\Users\BFD_632\AppData\Local\Temp\npm-12584-d3e72bb7\unpack-ad7eafa69bd4\package.json
+32 error code ENOENT
+33 error errno -4058
+34 error syscall open
+35 error enoent ENOENT: no such file or directory, open 'C:\Users\BFD_632\AppData\Local\Temp\npm-12584-d3e72bb7\unpack-ad7eafa69bd4\package.json'
+35 error enoent This is most likely not a problem with npm itself
+35 error enoent and is related to npm not being able to find a file.
+36 verbose exit [ -4058, true ]

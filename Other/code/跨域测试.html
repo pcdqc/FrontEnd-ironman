@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src=" jquery-1.8.0.min.js"></script>
+</head>
+<body>
+	<div>
+		<input placeholder="我并没有改变"/>
+	</div>
+	<div id="jsWeibo"  >123</div>
+
+	<script type="text/javascript">
+     window.onload= function(){
+     	 $.ajax({
+		        // Weibo API.
+		        url: "http://api.t.sina.com.cn/statuses/public_timeline.json",
+		        type: "GET",
+		        dataType: "jsonp",
+		        data: {
+		        	 source:'1726274686',
+		        	 uid:"1943862283",
+		        	 count:"15"
+		             
+		        },
+		       
+		        access_token:'2.00T4PYHCGuQpsB3b20bfed680gJ3Vl',
+
+		        // When the requet completed, then invokes success function.
+		        success: function(data, textStatus, xhr) {
+
+		            // Sets html structure.
+		            var html =
+		            '<div class="weibo">' +
+		            '<a href="http://weibo.com/DOMAIN" target="_blank">USER</a>' +
+		            '：WEIBO_TEXT<div class="time">AGO</div>';
+		            console.log(data)
+
+		            // Appends weibos into html page.
+		            for (var i = 0; i < data.length; i++) {
+		                $(JQWeibo.appendTo).append(
+		                html.replace('WEIBO_TEXT', JQWeibo.ify.clean(data[i].text))
+
+		                // Uses regex and declare DOMAIN as global, if found replace all.
+		                    .replace(/DOMAIN/g, data[i].user.domain)
+		                    .replace(/USER/g, data[i].user.screen_name)
+		                    .replace('AGO', JQWeibo.timeAgo(data[i].created_at))
+		            );
+		            }
+		        }
+		    })
+     }
+		   
+     function a(){
+     	console.log(this.hello == 'world')
+     }
+     var b = a.bind({hello: 'world'});
+     b();
+	</script>
+</body>
+</html>

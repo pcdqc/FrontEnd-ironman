@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<p>
+	函数是否用new进行调用<br>
+	1.是 this 指向新创建的对象<br>
+	2.否   函数是否用dot(./圆点)调用 1.是  this指向dot之前的对象<br>
+									 2.否  this指向全局对象window<br>
+</p>
+
+<p>
+	JavaScript 中的函数既可以被当作普通函数执行，也可以作为对象的方法执行，这是导致 this 含义如此丰富的主要原因。一个函数被执行时，会创建一个执行环境(ExecutionContext)，函数的所有的行为均发生在此执行环境中，构建该执行环境时，JavaScript 首先会创建 arguments变量，其中包含调用函数时传入的参数。接下来创建作用域链。然后初始化变量，首先初始化函数的形参表，值为 arguments变量中对应的值，如果 arguments变量中没有对应值，则该形参初始化为 undefined。如果该函数中含有内部函数，则初始化这些内部函数。如果没有，继续初始化该函数内定义的局部变量，需要注意的是此时这些变量初始化为 undefined，其赋值操作在执行环境(ExecutionContext)创建成功后，函数执行时才会执行，这点对于我们理解 JavaScript 中的变量作用域非常重要，鉴于篇幅，我们先不在这里讨论这个话题。最后为 this变量赋值，如前所述，会根据函数调用方式的不同，赋给 this全局对象，当前对象等。至此函数的执行环境(ExecutionContext)创建成功，函数开始逐行执行，所需变量均从之前构建好的执行环境(ExecutionContext)中读取
+</p>
+
+<script type="text/javascript">
+	var point = {
+		x : 1,
+		y : 1,
+		moveTo : function(x, y){
+			this.x = this.x + x;
+			this.y = this.y + y;
+			// return this.x  + this.y
+		}
+	};
+	point.moveTo(2,2)
+
+	
+	//example2
+	var point ={
+		x :0,
+		y :0,
+		moveTo : function(x,y){
+			//内部函数
+			var moveX = function(x){
+				this.x = x;
+			};
+			//
+			var moveY = function(y){
+				this.y = y;
+			};
+			moveX(x);
+			moveY(y);
+		}
+		
+
+	};
+	point.moveTo(1,1)
+	point.x; //==>0
+	point.y; //==>0
+	x; //==>1
+	y; //==>1
+
+
+
+	//构造函数调用
+	function Point(x,y){
+		this.x = x;
+		this.y = y;
+	}
+	var np = new Point(1,1);
+	np.x ; //1
+	var p = Point(2,2);
+	p.x   //error ,p是一个空对象undefined
+	window.x;  //2
+
+
+	//call和apply进行调用的例子
+	function Point(x,y){
+		this.x = x;
+		this.y = y;
+		this.moveTo = function(x,y){
+			this.x = x;
+			this.y = y;
+		}
+	}
+	var p1 = new Point(0,0);
+	var p2 = {x:0,y:0};
+	p1.moveTo.apply(p2,[10,10]);
+	//apply 实际上为p2.moveTo(10,10)
+	p2.x //10
+</script>	
+</body>
+</html>

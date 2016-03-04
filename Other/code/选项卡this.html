@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<ul class="nav nav-tabs" id="tabs">
+                                <li role="presentation"><a href="#url_input" onclick="showPanel(this)">抓取系统</a>
+                                </li>
+                                <li role="presentation"><a href="#text_input" onclick="showPanel(this)">文本输入</a>
+                                </li>
+    </ul>
+          <div class="panel-body">
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="url_input">
+                                    <div class="form-inline">
+                                        <div class="form-group">
+                                            <select class="form-control input-sm" id="datasource">
+                                                <option value="nods">请选择数据源</option>
+                                                <option value="weibo" selected>微博</option>
+                                                <option value="urls">URL</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group" style="width: 130px">
+                                            <input id="sentiment_keywords" type="text" class="form-control input-sm" placeholder="输入关键字"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <button class="btn btn-sm " style="background-color: #df0615;color:#ffffff;" onclick="crawler_sentiment()">抓取</button>
+                                        </div>
+                                    </div>
+
+                            <textarea  class="form-control" readonly  rows="12" id="sentiment_crawle_data" value="">
+
+                            </textarea>
+                                </div>
+                                <div class="tab-pane" id="text_input">
+                       <textarea  class="form-control" rows="15" id="sentiment_input_data" value="">
+
+                         </textarea>
+                                </div>
+                                <button id="analyze_text" class="btn btn-sm"  style="width: 100%;margin: 0px;background-color: #df0615;color:#ffffff;"  onclick="get_sentiment()">
+                                    提交
+                                </button>
+                            </div>
+                        </div>
+    <script type="text/javascript">
+    function showPanel(elem){
+    	var ele = elem.href;
+    	var i=ele.indexOf('#');
+    	var id = ele.slice(i+1)
+    	console.log(id)
+    }
+    </script>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script type="text/javascript">
+	if(navigator.sendBeacon){
+		// alert('yes')
+	}else
+	{
+		alert('not suporrt')
+	}
+// url
+// The url parameter indicates the resolved URL where the data is to be transmitted.
+// data
+// The data parameter is the ArrayBufferView, Blob, DOMString, or FormData data that is to be transmitted.
+	</script>
+	<script type="text/javascript">
+	var start = (new Date()).getTime();
+	var fibonacci = function(n){
+		return n<2 ? n : arguments.callee(n-1)+ arguments.callee(n-2);
+	}
+	// fibonacci(38);
+	// console.log((new Date()).getTime() - start)
+
+
+	//利用web worker提升效率
+	//
+	</script>
+	<script type="text/javascript">
+	function getNextElement(node){
+		if(node.nodeType == 1){
+			return node;
+		}
+		if(node.nextSibling){
+			return getNextElement(node.nextSibling);
+		}
+		return null;
+	}
+
+	function addLoadEvent(func){
+		var oldonload = window.onload;
+		if(typeof window.onload != 'function'){
+			window.onload = func;
+		}else{
+			window.onload = function(){
+				oldonload();
+				func();
+			}
+		}
+	}
+	</script>
+	<script type="text/javascript">
+	//任意概率模型的随机函数
+	function randowInProbability(weights){
+		if(arguments.length>1){
+			weights = [].slice.call(arguments);
+			//arguments是类数组，因此不能arguments.slice()
+			//call   取得数组上的slice方法
+			console.log(weights)
+		}
+
+		var total,current = 0, parts = [],
+			i=0,l=weights.length;
+		//reduce()方法从数组的第一项开始，逐个遍历到最后 .
+		//slice()基于当前数组中的一个或多个项创建一个新数组
+		//接收两个参数：一个在每一项上调用的函数和（可选）最为归并基础的初始值
+		total = weights.reduce ? weights.reduce( function(a,b){
+			return a+b;
+		}):eval(weights.join('+'));
+
+		for(;i<l;i++){
+			current+=weights[i];
+			parts.push('if(p<',current/total,')return ',i/l,'+n;');
+		}
+
+		return Function('var p = Math.random(),n=Math.random() /' +l +';'+parts.join(''));
+	}
+	var updateRandom = randowInProbability(0.01,0.03,0.06,0.9)
+	var count =0;
+	var temp = 1;
+	updateRandom();
+	while(temp>0.01){
+		temp = updateRandom()
+		count++
+	}
+	// console.log(count)
+	</script>
+	<script type="text/javascript">
+	var values = [1,2,3,4,5]
+	var sum = values.reduce(function(prev,cur,index,array){
+		return prev+cur;
+	})
+	</script>
+	<script type="text/javascript">
+	Function.prototype.bindAs = function(operator){
+		var me = this;
+		//返回一个函数
+		return function(){
+			var args = [me].concat([].slice.call(arguments, 0));
+			//调用一个对象的方法，以另一个对象替换当前对象
+			console.log(args)
+			return operator.apply(null, args);
+		};
+	};
+
+	var createFuse = function(){
+		var queue, fn, infire;
+		queue = [];
+		fn = function(process){
+			var args = [].slice.call(arguments, 1);
+			if(infire)
+				process.apply(null, args);
+			else
+				queue.push(function(){
+					process.apply(null, args);
+				});
+		};
+		fn.fire = function(){
+			while(queue.length)
+				queue.shift()();
+			infire = true;
+		};
+		return fn;
+	};
+
+	// 导火线模型的应用部分，从这里看起
+	var swfReady = createFuse(); // 创建一根导火线（在实际的复杂项目中，可根据需要任意创建多个）
+
+	var store = {
+		set: function(name, value){
+			window.alert(["set", name, value]);
+		}.bindAs(swfReady), // 把 set 接口挂到导火线上
+
+		get: function(name){
+		// TODO:
+	},
+		remove: function(name){
+			window.alert(["remove", name]);
+		}.bindAs(swfReady) // 把 remove 接口也挂到导火线上
+	};
+
+	// 这里模拟用户的一堆随意调用
+	// store.set("name", "dron");
+	// store.set("sex", "boy");
+	// store.remove("sex");
+	// store.set("age", 18);
+
+	setTimeout(function(){ // 这里延迟两秒，模拟 flash 加载完成
+		swfReady.fire(); // 由 flash 加载完成触发的导火线点火，这一步，你将看到上边一堆 set,remove 的效果了（alert）
+		store.set("sex", "girl"); // 这一句，说明了被挂到导火线上的接口，在点火完成后，仍然可以工作，当然不需要再次点火
+	}, 2000);
+ </script>
+ <script type="text/javascript">
+String.prototype.trim = function() {
+  return this.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+}
+var str ="par "
+console.log(str.length)
+ </script>
+</body>
+</html>

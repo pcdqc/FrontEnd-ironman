@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="msg"></div>
+	<input id='txt' value="" />
+	<script type="text/javascript">
+	function handle(){
+		document.getElementById('msg').innerHTML = '输入的文字长度为'+document.getElementById('txt').
+		value.length;
+	}
+	if(/msie/i.test(navigator.userAgent))
+	{
+		document.getElementById('txt').onpropertychange = handle
+	}
+	else{
+		document.getElementById('txt').addEventListener('input',handle,false)
+	}
+	</script>
+<script type="text/javascript">
+
+	var a = {};
+	a.total = 45003;
+	a.gaizi = 5;
+	a.bottle = 6;
+	for(var i=0;i>1;i++){
+		
+	}
+	// function getOs(){
+	// 	var OsObject ="";
+	// 	if(navigator.userAgent.indexOf("MISE")>0){
+	// 		return "MSIE";
+	// 	}
+	// 	if(isFirefox = navigator.userAgent.indexOf("Firefox")>0){
+	// 		return "Firefox";
+	// 	}
+	// 	if(isSafari = navigator.userAgent.indexOf("Safari")>0){
+	// 		return "Safari";
+	// 	}
+	// 	if(isCamino = navigator.userAgent.indexOf("Camino")>0){
+	// 		return "Camino" ;
+	// 	}
+	// 	if(isMozilla = navigator.userAgent.indexOf("Gecko/")>0){
+	// 		return "Gecko";
+	// 	}
+	// }
+	// if(navigator.userAgent.indexOf("MISE")>0){
+	// 	document.getElementById('tx1').attachEvent("onpropertychange",txChange);
+	// }else if(navigator.userAgent.indexOf("Firefox")>0){
+	// 	document.getElementById('tx1').addEventListener("input",txChange2,false);
+	// }
+</script>
+</body>
+</html>

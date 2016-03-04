@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script type="text/javascript">
+	//跨浏览器取得窗口坐标和上边的位置
+	//屏幕左边和上边 到由 window对象表示的页面可见区域的距离
+	var leftPos = (typeof window.screenLeft == "number") ?
+						window.screenLeft : window.screenX;
+	var topPos = (typeof window.screenTop == "number") ?
+						window.screenTop : window.screenY;
+	function convertToArray(nodes){
+		var array = null;
+		try{
+			array = Array.prototype.slice.call(nodes,0)//针对非IE浏览器
+		}catch(ex) {
+			array = new Array();
+			for(var i=0,len = nodes.length;i<len;i++){
+				array.push(nodes[i]);
+			}
+		}
+		return array;
+	}
+	</script>
+</body>
+</html>

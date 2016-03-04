@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script type="text/javascript" src="jquery-1.8.0.min.js"></script>
+	<script type="text/javascript">
+
+	var obj ={
+		"中国100":"'北京'，'四川' ,'辽宁'",
+		"英国大不列颠2" :"'london','airland'",
+		"美国加州5":"'phonix','atalata'",
+		"德意志4":"'berlin','etc'"
+	}
+ 
+	console.log(obj)
+	var a = [],b=[];
+	for (var i  in obj)
+	{
+		 a.push(i);
+	}
+	var reg = /\d/;
+	var reg1 = /[\u4e00-\u9fa5]*/
+	var strNum = ' ';
+	var strWord = ' ';
+	var arr1 = [];
+	var arr2 = [];
+	// /它将返回一个数组，其中存放了与它找到的匹配文本有关的信息。该数组的第 0 个元素存放的是匹配文本
+	for(var i=0;i<a.length;i++){
+		var num = a[i].match(reg)[0]
+		
+		strNum = a[i].substring(a[i].indexOf(num),a[i].length)
+		arr1.push(parseInt(strNum))
+
+		var num1 = a[i].match(reg1)[0]
+		strWord = a[i].substring(a[i].indexOf(num1),a[i].indexOf(num))
+		arr2.push(strWord)
+	}
+	// console.log(arr2)
+	// arr1.sort(function (a,b){
+	// 	return a-b
+	// })
+	var temp = 0;
+	var arr4 = [];
+	for(var i=0;i<arr1.length;i++){
+		
+			if(arr1[i]<temp){
+				for(var j=0;j<arr1.length;j++){
+					
+				}
+				arr4.push(arr2[i]+arr1[i])
+			}
+			else{
+				arr4.unshift(arr2[i]+arr1[i])
+			}
+			temp = arr1[i];
+			parseInt(temp);
+			console.log(temp)
+
+	}
+	console.log(arr4)
+
+	var arr3 = []
+	for(var i=0;i<arr2.length;i++){
+		 
+	}
+	 // console.log(arr2);
+	 for (i = 0; i < len; i++) {
+	  k = keys[i];
+	  console.log(keys[i])
+	  console.log(k + ':' + myObj[k]);
+	}
+
+	 var myObj = {
+	    'b': 'asdsadfd',
+	    'c': 'masdasaf',
+	    'a': 'dsfdsfsdf'
+	  },
+	  keys = [],
+	  k, i, len;
+
+	for (k in myObj) {
+	  if (myObj.hasOwnProperty(k)) {
+	    keys.push(k);
+	  }
+	}
+	keys.sort();
+
+	len = keys.length;
+
+	for (i = 0; i < len; i++) {
+	  k = keys[i];
+	  // console.log(k + ':' + myObj[k]);
+	}
+
+	var s="89.5+7*5-9/3.0+8.5",num,chr
+num=s.match(/\d+(\.\d+)?/g)
+// alert(num)
+chr=s.match(/[^\d\.]/g)
+// alert(chr)
+	</script>
+</body>
+</html>

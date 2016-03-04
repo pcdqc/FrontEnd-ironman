@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>闭包演示</title>
+<style type="text/css">
+    p {background:gold;}
+</style>
+<script type="text/javascript"> 
+function init() {    
+    var pAry = document.getElementsByTagName("p");    
+    for( var i=0; i<pAry.length; i++ ) {    
+         pAry[i].onclick = function() {    
+         alert(i);    
+    } 
+  }
+}
+var name = "The Window";
+　　var object = {
+　　　　name : "My Object",
+　　　　getNameFunc : function(){
+　　　　　　return function(){
+　　　　　　　　return this.name;
+　　　　　　};
+　　　　}
+　　};
+　　alert(object.getNameFunc());//object.getNameFunc() 返回 function(){return this.name}
+								//this.name 执行后  this指向window因此返回 The Window
+var name = "The Window";
+　　var object = {
+　　　　name : "My Object",
+　　　　getNameFunc : function(){
+　　　　　　var that = this;
+　　　　　　return function(){
+　　　　　　　　return that.name;
+　　　　　　};
+　　　　}
+　　};
+　　alert(object.getNameFunc());//that储存了闭包函数里的对象指针，及object里 为函数的上下文
+				//getNameFunc()		==>//function(return that.name) getNameFunc是一个闭包
+				//在函数外部访问了that  而此时的that 是以object为上下文 
+</script> 
+</head> 
+<body onload="init();"> 
+<p>产品 0</p> 
+<p>产品 1</p> 
+<p>产品 2</p> 
+<p>产品 3</p> 
+<p>产品 4</p> 
+</body> 
+</html> 

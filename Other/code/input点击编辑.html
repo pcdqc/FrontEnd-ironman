@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<meta charset='utf-8'>
+<TITLE>JS实现鼠标点击文字后可编辑文字的功能_网页代码站(www.6a8a.com)</TITLE>
+</HEAD>
+<BODY>
+<script type="text/javascript">
+<!--
+var _edit = 
+{
+	 IN: function (obj, act, id) {
+			  var tag = obj.firstChild.tagName;
+			  if (typeof(tag) != "undefined" && (tag == "INPUT" || tag == "TEXTAREA"))return;
+			  var org = obj.innerHTML;
+			  var orglen = org.replace(/[^\x00-\xff]/g,'**').length;
+			  if (obj.offsetHeight <= 22) {
+			  var val = window.ActiveXObject ? obj.innerText : obj.textContent;
+			  var txt = document.createElement("INPUT");
+			  txt.value = val;
+			  txt.style.background = "#FFC";
+			  txt.style.width = obj.offsetWidth + "px" ;
+			  obj.innerHTML = "";
+			  obj.appendChild(txt);
+			  txt.focus();
+			  txt.onblur = function(e){
+				obj.innerHTML = txt.value;
+				_edit.QUERY(act,txt.value);
+				return false;
+			  }
+			  return false;
+	  }else{
+			var content = obj.innerHTML;
+			var html = document.createElement('TEXTAREA');
+			html.style.width = obj.offsetWidth + "px";
+			html.style.height = obj.offsetHeight + "px";
+			obj.innerHTML = "";
+			html.value = content;
+			obj.appendChild(html);
+			html.focus();
+			html.onblur = function(e){
+			obj.innerHTML = html.value;
+			_edit.QUERY(act,obj.innerHTML);
+			}
+			return false;
+	  }
+
+	},
+	 QUERY: function (url,postData) {
+		var req = (window.XMLHttpRequest) ? new XMLHttpRequest() : (window.ActiveXObject ? new ActiveXObject('Microsoft.XMLHTTP') : false);
+		if (!req) alert("Unable to creat an XMLHttpRequest");
+		var method = (postData) ? "POST" : "GET";
+		req.open(method,url,true);
+		if (postData)req.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+		req.onreadystatechange = function () {
+		if (req.readyState == 4) {
+		if(req.status == 200) {
+		var message = req.responseText;
+		if(message)alert(message);
+		}else{
+		alert("There was a problem with the request " + req.status);
+			}
+		}
+		}
+		req.send(postData);
+ 	}
+}
+
+var editContent = _edit.IN;
+// -->
+</script>
+</head>
+
+<body>
+<div  style="background-color:#FFFFCC;width:160px;" onclick="_edit.IN(this,'index.html?act=edit',3)">单击编辑</div><br />
+<div id="content" ondblclick="editContent(this,'index.html?act=edit',3)">双击这儿也可以编辑哦，试试？</div>
+<br />
+ 
+</BODY>
+</HTML>

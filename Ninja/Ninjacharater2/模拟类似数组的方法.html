@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>obj</title>
+</head>
+<body>
+	<input type="text" id="first">
+	<input type="text" id="second">
+	<script>
+	var elems={
+		length:0,
+		add:function(elem){
+			Array.prototype.push.call(this,elem);
+		},
+		gather:function(id){
+			this.add(document.getElementById(id));
+		}
+	};
+
+	elems.gather('first');
+	console.assert(elems.length == 2 && elems[0].nodeType,"Verify that we have an element in our stash");;
+	elems.gather('second');
+	console.assert(elems.length == 1 && elems[1].nodeType,"Verify the other insertion");
+	//assert正确 不输出。。？！
+	</script>
+</body>
+</html>

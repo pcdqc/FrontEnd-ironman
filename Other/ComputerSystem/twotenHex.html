@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script type="text/javascript">
+		var temp = []
+		function change(val){
+			var str = 0;
+			var str1 = '';
+			if(val<16){
+				console.log(val)
+				str += Number(val)
+				str1 +=str
+				return str1
+			}
+			str += Number(val)%16
+			str1 +=str
+			console.log(str1)
+			return change(Number(str))
+		}
+		console.log(change(199))
+		console.log(temp)
+	</script>
+</body>
+</html>

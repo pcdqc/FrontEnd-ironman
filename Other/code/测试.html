@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Test</title>
+</head>
+<body>
+	<script type="text/javascript">
+	function once(fn, context){
+	    var result;
+	    return function(){
+	        if(fn){
+	            result = fn.apply(context || this, arguments);
+	            fn = null;
+	            //运行一次后将fn置空
+	        }
+	        return result;
+	    };
+	 }
+
+	 //Usage
+	 function printArgs(){
+	 	for(var i=0;i<arguments.length;i++){
+	 		console.log(arguments[0])
+	 	}
+	 }
+	 var canOnlyFireOnce = once(alert);
+
+	 // canOnlyFireOnce('hello');
+	 // canOnlyFireOnce('hello');
+	 // canOnlyFireOnce('hello');
+
+	var getAbsoluteUrl = (function(){
+    var a;
+	    return function(url){
+	        if(!a) a=document.createElement('a');
+	        a.href = url;
+
+	        return a.href;
+	    };
+	 })();
+
+	 //Usage
+	 var temp = getAbsoluteUrl('/yes')
+	 console.log(temp)
+
+
+	 Sheet = (function(){
+	    //build style
+	    var style = document.createElement('style');
+	    style.setAttribute('media','screen');
+	    style.appendChild(document.createTextNode(''));
+	    document.head.appendChild(style);
+
+	    //Build and return a single function
+
+	    return function(rule){style.sheet.insertRule(rule,style.sheet.cssRules.length);};
+	})();
+
+	//Then call as a function
+	Sheet(".stats{position:relative;top:0px}");
+</script>
+</body>
+</html>

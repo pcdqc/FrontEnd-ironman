@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<script type="text/javascript" id="1">
+	function prepend(arr,item){
+		var a =[];
+		for(var i=0;i<arr.length;i++){
+			a.push(arr[i])
+		}
+		a.unshift(item)
+
+		return a.unshift(item)
+	} 
+
+	// console.log(prepend([1,2,3,4],10))
+	//1.在数组arr开头添加元素item,不要直接修改数组arr,结果返回新的数组
+</script>
+<div id="counter"></div>
+<button id="cancel" onclick="count()">cancel</button>
+<script type="text/javascript">
+	function tick1(start,end){
+		var cou = document.getElementById('counter');
+		 console.log(start)
+		var timer = setInterval(function(){
+			if(start<=end){
+				console.log(++start);
+				cou.innerHTML = start;
+			}
+			else{
+				clearInterval(timer)
+			}
+		},1000);
+
+		return {
+			cancel: function(){
+				clearInterval(timer)
+			}
+		};
+
+
+
+		  
+		  
+		  
+	}
+	 
+
+	 function count(start,end){
+	 	if(start <= end){
+	 		console.log(start);
+	 		start++;
+	 		st = setTimeout(function(){count(start,end)},1000);
+	 	}
+	 	return {
+	 		cancel: function(){
+	 			clearSetTimeout(st);
+	 		}
+	 	}
+	 }
+	 // count(0,100)
+
+
+	 // 函数传参
+	 // 将数组 arr 中的元素作为调用函数 fn 的参数
+    function argsAsArray(fn, arr) {
+		fn(arr[0],arr[1],arr[2])
+		console.log(fn(arr[0],arr[1],arr[2]))
+		console.log(argsAsArray.name)
+		return fn.apply(this,arr);
+	}	
+	argsAsArray(function (greeting, name, punctuation) 
+	{
+		return greeting + ', ' + name + (punctuation || '!');
+	}, ['Hello', 'Ellie', '!'])
+	 
+	// 调用函数有3种方式：
+	// obj.func();
+	// func.call(obj,args);//参数列出
+	// func.apply(obj,[m,n......]);//参数数组
+	 
+
+	 //返回函数
+	var s = function functionFunction(str){
+	 	var f = function(s){
+	 		return str +", "+s;
+	 	}
+	 	return f
+	 }
+
+
+	 // var s = functionFunction('hello')('wo')
+	 console.log(s('hello'))
+</script>
+	
+</body>
+</html>

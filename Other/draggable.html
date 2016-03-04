@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Test</title>
+        <style type="text/css" >
+            html,body
+            {
+                height:100%;
+                width:100%;
+                padding:0;
+                margin:0;
+            }
+            
+            .dialog
+            {
+                width:250px;
+                height:250px;
+                position:absolute;
+                background-color:#ccc;
+                -webkit-box-shadow:1px 1px 3px #292929;
+                -moz-box-shadow:1px 1px 3px #292929;
+                box-shadow:1px 1px 3px #292929;
+                margin:10px;
+            }
+            
+            .dialog-title
+            {
+                color:#fff;
+                background-color:#404040;
+                font-size:12pt;
+                font-weight:bold;
+                padding:4px 6px;
+                cursor:move;
+            }
+            
+            .dialog-content
+            {
+                padding:4px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="dlgTest" class="dialog">
+            <div class="dialog-title">Dialog</div>
+            <div class="dialog-content">
+                This is a draggable test.
+            </div>
+        </div>
+    <script type="text/javascript">
+    // var isDialogTitle = false;
+    // function down(e){
+    // 	if(e.target.className.indexOf('dialog-title')!=-1){
+    // 		isDialogTitle = true;
+    // 	}
+    // }
+    // function move(e){
+    // 	var dialog = document.getElementById('dlgTest');
+    // 	if(isDialogTitle){//只有点击dialog title的时候才能拖动
+    // 		dialog.style.left = e.clientX +'px';
+    // 		console.log(dialog.style.left)
+    // 		dialog.style.top = e.clientY +'px';
+    // 		console.log(dialog.style.top)
+    // 	}
+    // }
+
+    // function up(e){
+    // 	isDialogTitle = false;
+    // }
+
+    // document.addEventListener('mousedown',down);
+    // document.addEventListener('mousemove',move);
+    // document.addEventListener('mouseup',up);
+
+
+    /*
+    var draggingObj = null;
+    var diffX = 0;
+    var diffY = 0;
+    function down(e){
+    	if(e.target.className.indexOf('dialog-title')!= -1){
+    		draggingObj = e.target.offsetParent;
+    		diffX = event.clientX - draggingObj.offsetLeft;
+    		diffY = event.clientY - draggingObj.offsetTop;
+    	}
+    }
+    function move(e){
+    	var dialog = document.getElementById('dlgTest');
+    	if(draggingObj){//只有点击Dialog Title的时候才能拖动
+    		dialog.style.left = (e.clientX - diffX) + 'px';
+    		dialog.style.top = (e.clientY - diffY) + 'px';
+    	}
+    }
+    function up(e){
+    	draggingObj = null;
+    	diffX = 0;
+    	diffY = 0;
+    }
+
+    document.addEventListener('mousedown',down);
+    document.addEventListener('mousemove',move);
+    document.addEventListener('mouseup',up);
+    */
+
+
+    var Dragging=function(validateHandler){ //参数为验证点击区域是否为可移动区域，如果是返回欲移动元素，负责返回null
+                var draggingObj=null; //dragging Dialog
+                var diffX=0;
+                var diffY=0;
+                
+                function mouseHandler(e){
+                    switch(e.type){
+                        case 'mousedown':
+                            draggingObj=validateHandler(e);//验证是否为可点击移动区域
+                            if(draggingObj!=null){
+                                diffX=e.clientX-draggingObj.offsetLeft;
+                                diffY=e.clientY-draggingObj.offsetTop;
+                            }
+                            break;
+                        
+                        case 'mousemove':
+                            if(draggingObj){
+                                console.log('e.clientX'+e.clientX +'px')
+                                draggingObj.style.left=(e.clientX-diffX)+'px';
+                                draggingObj.style.top=(e.clientY-diffY)+'px';
+                            }
+                            break;
+                        
+                        case 'mouseup':
+                            draggingObj =null;
+                            diffX=0;
+                            diffY=0;
+                            break;
+                    }
+                };
+                
+                return {
+                    enable:function(){
+                        document.addEventListener('mousedown',mouseHandler);
+                        document.addEventListener('mousemove',mouseHandler);
+                        document.addEventListener('mouseup',mouseHandler);
+                    },
+                    disable:function(){
+                        document.removeEventListener('mousedown',mouseHandler);
+                        document.removeEventListener('mousemove',mouseHandler);
+                        document.removeEventListener('mouseup',mouseHandler);
+                    }
+                }
+            }
+
+            function getDraggingDialog(e){
+                var target=e.target;
+                while(target && target.className.indexOf('dialog-title')==-1){
+                    target=target.offsetParent;
+                    console.log(target)
+                }
+                if(target!=null){
+                    console.log(target.offsetParent)
+                    return target.offsetParent;
+                }else{
+                    return null;
+                }
+            }
+            
+            Dragging(getDraggingDialog).enable();
+    </script>
+    </body>
+</html>

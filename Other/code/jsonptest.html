@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script type="text/javascript" scr="./jquery-1.8.0.min.js"></script>
+	<script type="text/javascript">
+	function test(){
+		$.ajax({
+			type:"get",
+			async:false,
+			url:"http://192.168.8.82:8888/rule/w2v/fetch?word=%E5%91%A2&token=AAA&limit=10",
+			dataType:"jsonp",
+			jsonp:"callback",
+			jsonpCallback:"myHandler",
+			success:function(json){
+				alert('yes!')
+			},
+			error:function(){
+				alert('you must be kiding me!');
+			}
+		});
+	}
+	test();
+	</script>
+</body>
+</html>

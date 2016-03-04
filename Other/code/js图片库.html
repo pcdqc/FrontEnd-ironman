@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Image Gallery</title>
+</head>
+<body>
+	<h1>Snapshots</h1>
+	<ul>
+		<li><a href="img/1.jpg" title="1" onclick="showPic(this);return false">1           1</a></li>
+		<li><a href="img/2.jpg" title="2" onclick="showPic(this);return false">2            2</a></li>
+		<li><a href="img/3.jpg" title="3" onclick="showPic(this);return false">3             3</a></li>
+		<img src="img/placeholder.jpg" id="placeholder" alt="my image gallery" />
+	</ul>
+	<script type="text/javascript">
+	function showPic(whichkPic){
+		var source = whichkPic.getAttribute('href');
+		var placeholder = document.getElementById('placeholder');
+		placeholder.setAttribute('src',source)
+	}
+	</script>
+</body>
+</html>
