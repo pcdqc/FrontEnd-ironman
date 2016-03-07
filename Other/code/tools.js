@@ -123,7 +123,10 @@ function addClass(element,value){
         }
     },interval)
  }
-
+ //js时间戳转日期
+ function getLocalTime(nS) {     
+   return new Date(parseInt(nS) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');     
+} 
  //禁止重复调用，只允许执行一次的once函数
  function once(fn, context){
     var result;
