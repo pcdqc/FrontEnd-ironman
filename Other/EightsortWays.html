@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script type="text/javascript">
+	function InsertSort(arr){
+		console.log(arr)
+		var temp = arr[0],arrTemp=[];
+		for(var i=1,len=arr.length;i<len;i++){
+			for(var j=0;j<=arrTemp.length;j++){
+				if(arrTemp[j]<arr[i]){
+					arrTemp.push(arr[i])
+				}else{
+					arrTemp.slice(0,50)
+				}
+			}
+		}
+		return arrTemp
+	}
+	var unSortedArr = [38,49,65,97,76,13,27,49]
+
+	// console.log(InsertSort(unSortedArr))
+
+
+//字符串转整数 ？？？
+  // var myAtoi = function(str) {
+  //   //1.负数
+  //   //2.为空
+  //   //3.只有字符
+  //   if (str ==='') return 0;
+  //   if (!str.match(/[0-9]/g)) return 0;
+  //   if (str.indexOf('-')!== -1 && str[str.indexOf('-')].match(/\d/)){
+  //     //\D 匹配任意不是数字的字符
+  //       str=str.replace(/^\D*/ig,"")
+  //       console.log(str)
+  //       return -Number(str.replace(/^0-9/ig,""));
+  //   }
+  //   return  Number(str.replace(/[^0-9]/ig,""));
+  // };
+  // console.log('+-a2')
+
+
+
+  function arr(){
+    var temp  =
+    return Math.random()*100
+  }
+	</script>
+</body>
+</html>

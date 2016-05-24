@@ -3,8 +3,19 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Document</title>
+	<style type="text/css">
+	#box{
+		width: 100px;
+		height: 100px;
+		background-color: red;
+		position: absolute;
+	}
+	</style>
 </head>
 <body>
+	<div id="box">
+		this is a box
+	</div>
 	<script type="text/javascript">
 function forEach(list,callback){
 	for(var n=0;n<list.length;n++){
@@ -15,9 +26,9 @@ var weapons = ['shuriken','katana','nunchucks'];
 forEach(
 	weapons,
 	function(index){
-		console.assert(this != weapons[index],
+		// console.assert(this != weapons[index],
 		//console.assert(this == weapons[index], 正确不会打印日志
-			"Got the expected value of " +weapons[index]);
+			// "Got the expected value of " +weapons[index]);
 	}
 );
 	</script>
@@ -44,7 +55,29 @@ forEach(
 	function multiMax(multi){
 		return multi * Math.max.apply(Math,Array.prototype.slice.call(arguments,1));
 	}
-	console.log(multiMax(3,1,2,34#))
+	console.log(multiMax(3,1,2,34))
+	</script>
+
+	<script type="text/javascript">
+	//代码5.6
+	function animateIt(elementId) {
+		var elem = document.getElementById(elementId);
+		var tick = 0;
+		var timer = setInterval(function(){
+			if(tick<100) {
+				elem.style.left = elem.style.top = tick + 'px';
+				tick++;
+				console.log(tick)
+			}
+			else{
+				clearInterval(timer);
+				console.log(tick)
+				console.log(elem)
+
+			}
+		},10);
+	}
+	animateIt('box')
 	</script>
 </body>
 </html>

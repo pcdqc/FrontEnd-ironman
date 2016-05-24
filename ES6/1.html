@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>
+	</title>
+</head>
+<body>
+	<script type="text/javascript">
+	for(var lc = 0; lc < 10; lc++) {
+		let value = lc;
+	}
+	//可以用const 或let 替换var 他们定义了块级作用域
+	const user = {name:"bob"};
+	user.name = 'chuan'
+	console.log(user.name)
+	//改变的是变量 user 内部的属性，并没有改变 user 本身。
+
+	// 箭头函数
+	const numbers = [10,20,30,50];
+	// const multiByTen = numbers.map(function (a){
+	// 	return a*10;
+	// })
+	//-->改为箭头函数
+	const multiplyByTen = numbers.map(a=>a * 10);
+	console.log(multiplyByTen)
+	const multiplyByIndex = numbers.map((a, i) => a * i);
+	console.log(multiplyByIndex)
+
+	//箭头函数返回一个对象 （数组对象）{key,value}
+	//需要添加一个圆括号
+	const multiBy10 = numbers.map(a => ({data:a}));
+	console.log(multiBy10)
+	console.log(typeof multiBy10)
+	console.log(Object.prototype.toString.call(multiBy10))
+
+	//不再使用self=this;
+	/*Before*/
+	function Clock(){
+		this.currentTime = new Date();
+		console.log(this.currentTime)
+	}
+	Clock.prototype.start = function() {
+		var self = this;
+		setInterval(function () {
+			self.currentTime = new Date();
+			console.log(self.currentTime)
+		},1000)
+	}
+	var test = new Clock;
+	// test.start();
+	/*Before*/
+
+	/*使用箭头函数替代self=this*/
+	Clock.prototype.startNew = function() {
+		setInterval(() => {
+			this.currentTime = new Date();
+			console.log(this.currentTime)
+		},1000)
+	}
+	// test.startNew();
+	/*****/
+	// 箭头函数会携带函数定义时的上下文
+	/********/
+
+	// 改良的对象字面量
+	const user1 = {
+		getName(){
+			return 'bob';
+		}
+	}
+	console.log(user1.getName())
+
+	// const name = 'Arunda';
+	// const age = 80;
+	// const user3 = {name,age}
+	// console.log(user3)
+	const user2 = {bob:18}
+	console.log(user2)
+
+
+	//结构赋值
+	const user4 = {
+		name:'bobo',
+		age: 15,
+		city: 'tokyo'
+	}
+	const {name, age} = user4;
+	console.log(name, age);
+
+	function printName({name}) {
+		console.log('Name is:' + name);
+	}
+
+	const user5 = {
+		name:'chuange',
+		age:'22',
+		city:'beijing'
+	};
+	printName(user)
+
+
+	//spread（...）操作符 传递数组
+	//spread 操作符可以很简单的把所有参数存入args变量
+	//再用spread操作符把args传入sum方法
+	function sum(a, b){
+		return a + b;
+	}
+	function sumAndLog(...args){
+		const result = sum(...args);
+		console.log('Result is:' + result);
+		return result
+	}
+
+	sumAndLog(10,20,30)
+
+	function printTeam(leader, ...others) {
+		console.log('Leader:' + leader + ' -Others: ' + others);
+	}
+
+	printTeam('Arunoda', 'John', 'Singh');
+
+	//克隆，合并对象
+	// 以往都是用underscore或者lodash克隆，合并对象
+	var user = {name: 'Arunoda'};
+	var newUser = _.clone(user);
+	</script>
+</body>
+</html>

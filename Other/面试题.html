@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Audition test Questions</title>
+</head>
+<body>
+	<h3>利用给定接口获得闭包</h3>
+	<script type="text/javascript">
+	var o = (function() {
+		var person = {
+			name:'vincent',
+			age:24,
+		};
+		return {
+			run:function(k) {
+				return person[k];
+			},
+		}
+	}());
+	</script>
+	<script type="text/javascript">
+		// function makeClosures(arr, fn) {
+		//     var result = [];
+		//     for(var i=0;i<arr.length;i++){
+		//         result.push(fn(arr[i]))
+		//     }
+		// 	return function(){
+		// 		console.log(result)
+		//         return result
+		//     }
+		// }
+		// var arr = [1, 2, 3];
+		// var square = function (x) { return x * x; };
+		// var funcs = makeClosures(arr, square);
+		// var res = funcs[1]();
+		// console.log(res)
+
+		function leftpad (str, len, ch) {
+		  str = String(str);
+		  var i = -1;
+		  if (!ch && ch !== 0) ch = ' ';
+		  len = len - str.length;
+		  while (++i < len) {
+		    str = ch + str;
+		  }
+		  return str;
+		}
+
+	</script>
+</body>
+</html>

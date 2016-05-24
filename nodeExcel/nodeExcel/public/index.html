@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style type="text/css">
+    #click{
+      width: 100px;
+      height: 50px;
+    }
+    #rows{
+      width: 270px;
+      height: 30px;
+      margin-bottom: 10px;
+    }
+    .like{
+      display: block;
+      margin-left: 50px;
+    }
+  </style>
+</head>
+<body>
+    <p class="like">输入文件放到InExcel文件夹下,程序执行成功后，将输出到OutPut文件夹下</p>
+   <input id='rows' class="like" type="text" placeholder="请输入希望拆分依据的项目列数(从0开始计数)"><span id
+   ='rows1' class="like" style="color:red;border-botton:10px;"></span>
+   <span id
+   ='rows2' class="like" style="color:black;border-botton:10px;"></span>
+   <button id="click" class="like">点击拆分Excel表格</button>
+   <span id="btn" style="color:red" class="like"></span>
+   <script type="text/javascript" src="/javascripts/jquery.js"></script>
+   <script type="text/javascript">
+    window.onload =function(){
+      var btn = document.getElementById('click');
+      btn.addEventListener('click',excute,false);
+      var input = document.getElementById('rows');
+      input.addEventListener('focus',function(){
+        $('#rows1').html('')
+      },false)
+      function excute(){
+        $('#btn').html('')
+        var val = $('#rows').val();
+        if(val != ''&&val!= undefined){
+          var self = this;
+          self.setAttribute('disabled','disabled')
+          $.ajax({
+            url:'/excute',
+            type:'get',
+            data:{
+              'rows':val
+            },
+            success:function(result){
+              var data = JSON.parse(result)
+              console.log(data)
+              $('#btn').html('拆分Excel表完成！耗时'+data.time+'秒')
+              $('#click').attr("disabled",false);
+            },
+            error:function(data){
+              console.log(data)
+            }
+          })
+        }else{
+          $('#input').css('border','1px solid red');
+          $('#rows1').html('请输入一个数值！(例如：7,代表根据第8列的项目名称拆分.)')
+          $('#rows2').html('PS:不可对单元格内容中包括(“?”、“、”、“╲”、“/”、“*”、““”、“”“、“<”、“>”、“|”)字符的列进行拆分')
+        }
+
+      }
+    }
+   </script>
+</body>
+</html>

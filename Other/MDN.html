@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	div{
+		width: 100px;
+		height: 100px;
+		background-color: red;
+	}
+	</style>
+</head>
+<body>
+	<!-- //利用闭包来定义公共函数 -->
+	<p id="help">Helpful notes will appear here</p>
+	<p>E-mail: <input type="text" id="email" name="email"></p>
+	<p>Name: <input type="text" id="name" name="name"></p>
+	<p>Age: <input type="text" id="age" name="age"></p>
+	<script>
+	//模块模式
+	var Counter = (function(){
+		var privateCounter = 0;
+		function changeBy(val){
+			privateCounter += val;
+		}
+		return {
+			increment: function() {
+				changeBy(1);
+			},
+			decrement: function() {
+				changeBy(-1);
+			},
+			value: function(){
+				return privateCounter;
+			}
+		}
+	})();
+	console.log(Counter.value());
+	Counter.increment();
+	Counter.increment();
+	console.log(Counter.value());
+	Counter.decrement();
+	console.log(Counter.value());
+	//2.赋值给一个变量，将这个函数保存到另一个变量中，以便创建多个计数器
+	// var makeCounter = function(){...}
+	// var Counter1 = makeCounter();
+	// var Counter2 = makeCounter();
+	//每次调用makeCounter函数期间，其环境是不同的
+
+
+
+	function showHelp(help){
+		document.getElementById('help').innerHTML =help;
+	}
+	function makeHelpCallback(help){
+		return function(){
+			showHelp(help)
+		}
+	}
+	function setupHelp(){
+		var helpText = [
+			  {'id': 'email', 'help': 'Your e-mail address'},
+		      {'id': 'name', 'help': 'Your full name'},
+		      {'id': 'age', 'help': 'Your age (you must be over 16)'}
+		];
+
+		for(var i=0;i<helpText.length;i++){
+			var item = helpText[i];
+			//循环每次到绑定onfocus事件的时候 闭包会保存当前的运行环境 并保存当前得到的信息
+			document.getElementById(item.id).onfocus = makeHelpCallback(item.help);
+			// /所有的回调不再共享同一个环境
+			//makeHelpCallback 函数为每一个回调创建一个新的环境。在这些环境中，help 指向 helpText 数组中对应的字符串。
+		}
+	}
+	setupHelp();
+	function Ternary(value){
+	 return value == "0"?"第一种情况":value == "1"?"第二种情况":value == "2"?"第三种情况":"第四种情况"
+	}
+	for(var i = 0;i<5;i++){
+		var div = document.createElement('div')
+		div.setAttribute('id',i)
+		document.body.appendChild(div)
+	}
+	function setId(i){
+		document.getElementById(i).innerHTML = i;
+
+	}
+	function setIds(){
+		for(var i =0;i<4;i++){
+			document.getElementById(i).onclick = function(){
+				console.log(i)
+
+				setId(i)
+			}
+		}
+	}
+	setIds();
+
+	</script>
+</body>
+</html>
