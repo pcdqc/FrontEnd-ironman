@@ -10,4 +10,8 @@ module.exports = function(app) {
     var time = Excel.start(rows);
     res.send(JSON.stringify({"time":time}))
   })
+  app.post('/merge',function (req, res) {
+    var data = Excel.merge();
+    res.send(JSON.stringify({"data":data}))
+  })
 };

@@ -27,9 +27,24 @@
    ='rows2' class="like" style="color:black;border-botton:10px;"></span>
    <button id="click" class="like">点击拆分Excel表格</button>
    <span id="btn" style="color:red" class="like"></span>
+   <hr>
+   <button id="merge" class="like">点击合并表格</button>
    <script type="text/javascript" src="/javascripts/jquery.js"></script>
    <script type="text/javascript">
     window.onload =function(){
+      var merge = document.getElementById('merge');
+      merge.addEventListener('click',function(){
+        $.ajax({
+            url:'/merge',
+            type:'post',
+            success:function(result){
+              console.log(result)
+            },
+            error:function(data){
+              console.log(data)
+            }
+          })
+      },false)
       var btn = document.getElementById('click');
       btn.addEventListener('click',excute,false);
       var input = document.getElementById('rows');

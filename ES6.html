@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style type="text/css">
+  .site-topheader .media-object {
+    border: 4px solid #fff;
+    width: 80px;
+    height: 80px;
+    background-color: :#fff;
+  }
+  /*later*/
+  @mixin mt($val) {
+    margin-top: : $val;
+  }
+  @each $i in -5, 0, 4, 5, 10, 15, 20, 30, 40 {
+    .mt#{$i}, .mt-#{$i} {
+      @include mt(#{$i}px);
+    }
+  }
+  .tag {
+    display: inline-block;
+    &[href]:focus {
+      background-color:#017E66;
+    }
+    &-sm {
+      font-size: 12px;
+    }
+  }
+  /*after*/
+  var fooStyles = {
+    bar: {
+      color: 'green';
+    },
+    '@media screen and (min-width: 800px':{
+      bar: {
+        color: 'purple';
+      }
+    }
+  });
+
+  </style>
+  </head>
+<body>
+  <div style=fooStyles>
+      Hello,<span className="bar">world</span>!
+  </div>
+
+  <!-- mvc & mvvm-->
+  <tabs>
+    <pane title="Localization">
+      <span>Data: {{ '2012-04-01' | date:'fullDate'}}</span><br>
+      <span>Currency: {{ 123456 | currency}}</span><br>
+      <span>Number: {{ 98765.4321 | number }}</span><br>
+    </pane>
+    <pane title="Pluralization">
+      <div ng-controller="BeerCounter">
+        <div ng-repeat="beerCount in beers">
+
+        </div>
+
+      </div>
+
+    </pane>
+</body>
+    <script type="text/javascript">
+  /*jsformat*/
+  const variable =`hello
+   world`
+  console.log(variable)
+  const name = `i
+  am
+  brade`
+  console.log(`hello ${name}`)
+
+  class Rectangle {
+    constructor (width, height) {
+      this._width = width;
+      this._height = height
+    }
+    set height (height) {this._height = height}
+    get height (){ return this._height}
+    get area() {
+      return this._width*this._height
+    }
+  }
+  var r = new Rectangle(50,20)
+  console.log(r.area)
+  //Ancient ajax
+  function makeRequest(url) {
+    httpRequest = new XMLHttpRequest();
+    if(!httpRequest){
+      alert('Giving up :(Cannot create an XMLHTTP instance');
+        return false;
+    }
+    httpRequest.onreadystatechange = alertContents;
+    httpRequest.open('GET', url);
+    httpRequest.send();
+  }
+  function alertContents() {
+    if(httpRequest.readyState === XMLHttpRequest.DONE){
+      if(httpRequest.status === 200) {
+        alert(httpRequest.responseText);
+      }else{
+        alert('There was problem with the request.');
+      }
+    }
+  }
+  makeRequest('www.baidu.com')
+
+  //before ajax
+  ajax('data.json', (data) ==> {
+    console.log('AJAX/data >>>',
+      JSON.parse(data));
+    //Getting users
+    ajax('user.json', (users) => {
+      console.log('AJAX/users >>>', JSON.parse(users));
+      //Getting products
+      ajax('products.json', (products) ==> {
+        console.log('AJAX/products >>>', JSON.parse(products));
+      });
+    });
+  });
+  //after ajax
+  fetch('data.json')
+  .then(function(data) {
+    return data.json();
+  })
+  .then(function(data) {
+    console.log('Promise+fetch/data >>>', data);
+  });
+  fetch('user.json')
+  .then(function(data) {
+    return data.json();
+  })
+  .then(function(users) {
+    console.log('Promise+fetch/users >>>', users);
+  });
+
+  //ASYNC
+  //-----Before
+  //Promises
+  function requestP(url) {
+    return new Promise(function(resolve, reject) {
+      ajax(url, (response) ==> {
+        resolve(JSON.parse(response));
+      });
+    });
+  }
+  //Gettins data
+  requestP('data.json')
+  .then(function(data){
+    console.log('Promise/data >>>', data);
+  });
+  //Gettins users
+  requestP('users.json')
+  .then(function(users){
+    console.log('Promise/users >>>', users);
+  });
+
+  //-----Later
+  function request(url) {
+    ajax(url, (response) => {
+      iterator.next(JSON.parse(response));
+    });
+  }
+  function *main() {
+    //Getting data
+    let data = yield requset('data.json');
+    //Gettins users
+    let users = yield request('users.json');
+    //Gettins products
+    let products = yield request('products.json');
+    console.log('Generator/data >>>', data);
+    console.log('Generator/users >>>', users);
+    console.log('Generator/products >>>', products);
+    var iterator = main();
+    iterator.next();
+  }
+
+  //-----After
+  (async () => {
+    let parallelDataFetch = await* [
+      (await fetch('data.json')).json();
+      (await fetch('user.json')).json();
+      (await fetch('products.json')).json();
+    ];
+    console.log(parallelDataFetch);
+  }());
+  </script>
+
+
+  <script>
+  // philosophy?
+
+  // before
+  // find it & XXXit
+  $('a')
+    .click(function(e) {
+      console.log(e);
+    })
+    .css({color: 'red'});
+  // later
+  //----||---- turn  to body
+
+  //after reactive programming
+  import { createStore } from 'redux'
+  function counter(state = 0, action) {
+    switch (action.type) {
+      case 'INCREMENT':
+        return state + 1
+      case 'DECREMENT':
+        return state - 1
+      default:
+        return state
+    }
+  }
+  let store = createStore(counter)
+  store.subscribe(() =>
+    console.log(store.getState())
+    )
+  store.dispatch({ type: 'INCREMENT'})
+  store.dispatch({ type: 'INCREMENT'})
+  store.dispatch({ type: 'DECREMENT'})
+  </script>
+</html>

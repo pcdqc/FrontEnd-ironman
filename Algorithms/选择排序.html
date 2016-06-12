@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>selectSort</title>
+</head>
+<body>
+  <script type="text/javascript" src='common.js'></script>
+  <script type="text/javascript">
+  var arr = randomArr();
+  function selectSort(arr){
+    //固定位置选元素   《==》插入排序 固定元素找位置
+    for(var i=0,len=arr.length;i<len;i++){
+      console.log('--------------')
+      console.log(arr)
+      var index = i
+      var min = v[i]
+      var temp = ''
+      for(var j=i+1;j<len;j++){
+        console.log(arr)
+        if(arr[j]<min){
+          min = v[j];
+          index = j;
+        }
+      }
+    }
+    return arr;
+  }
+  console.log(selectSort(arr))
+  console.log(arr.sort(function(a,b){return a-b}))
+  </script>
+</body>
+</html>

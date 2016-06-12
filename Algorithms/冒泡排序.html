@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  <script type="text/javascript" src='common.js'></script>
+  <script type="text/javascript">
+  var arr = randomArr();
+  // console.log(arr.sort())
+  //Bubble Sort
+  //???
+  for(var i=0,len=arr.length;i<len;i++){
+    console.log(arr)
+    for(var j=i+1;j<len;j++){
+      //到+2 都不会影响结果，那么不同的数量下 是否J能增加到更大呢
+      if(arr[i]>=arr[j]){
+        var temp ='';
+        temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp
+      }
+    }
+  }
+  console.log(arr)
+  //JS默认的sort方法不是按数字大小排序的
+  console.log(arr.sort(function(a,b){return a-b}))
+  </script>
+</body>
+</html>

@@ -7,6 +7,90 @@ function Excel(excel){
 
 module.exports = Excel;
 
+Excel.merge = function(){
+  console.log('Started to mixed excels!__________')
+  var totalData = [];
+
+  for(var i=0;i<filesListMerge.length;i++){
+    totalData.push(filesListMerge[i].path)
+    var list = xlsx.parse(filesListMerge[i].path)
+    for(a in list){
+      for(var q=0;q<list[a].data.length;q++){
+        totalData.push(list[a].data[q])
+      }
+    }
+  }
+
+  // 构造生成xls需要的格式
+  tempObj.name = 'mixed';
+  tempObj.data = totalData;
+  var tempFile = xlsx.build([tempObj])
+  fs.writeFileSync('merged.xlsx', tempFile, 'binary',function(err){
+    if(err){
+      console.log(err)
+    }
+  })
+  console.log('mixed.xlsx is created!  __________')
+
+
+
+
+
+  // var unMergedData = [];
+  // for(var i=0;i<filesListMerge.length;i++){
+  //   var list = xlsx.parse(filesListMerge[i].path)
+  //   for(a in list){
+  //     for(var q=0;q<list[a].data.length;q++){
+  //       unMergedData.push(list[a].data[q])
+  //     }
+  //   }
+  // }
+  // for(var i=0;i<filesListMerge.length;i++){
+  //   var list = xlsx.parse(filesListMerge[i].path)
+  //   for(i in list){
+  //     for(j in obj){
+  //       var tempObj = {};
+  //       var tempData = [];
+  //       tempData.push(['面积','房号','购买日期/预售号','单元','楼层','买受人','电话','项目名称','栋'])
+  //       var tempName = '';
+  //       for(var m=0;m<data.length;m++){
+  //         tempName = j
+  //         if(j == list[i].data[m][word]){
+  //           tempData.push(list[i].data[m])
+  //         }
+  //       }
+  //       var strTempName = tempName;
+  //       for(var ii=0;ii<strTempName.length;ii++){
+  //         strTempName = strTempName.replace(/[^\u4e00-\u9fa5a-zA-Z]/,'')
+  //       }
+  //       console.log(strTempName)
+  //       //构造生成xls需要的格式
+  //       tempObj.name = tempName;
+  //       tempObj.data = tempData;
+  //       var tempFile = xlsx.build([tempObj])
+  //       if(tempName === 'undefined'){
+  //         break;
+  //       }
+  //       fs.writeFileSync('MergedOutput/'+name+'/'+strTempName+'.xlsx', tempFile, 'utf-8',function(err){
+  //         if(err){
+  //           console.log(err)
+  //         }
+  //       });
+  //       // fs.writeFileSync(tempName+'.xlsx', tempFile, 'binary');
+  //     }
+  //   }
+  // }
+  // var mergeObj = {};
+  // mergeObj.name = 'test';
+  // mergeObj.data = unMergedData;
+  // var tempFile = xlsx.build([mergeObj])
+  // fs.writeFileSync('test.xlsx', tempFile, 'binary',function(err){
+  //   if(err){
+  //     console.log(err)
+  //   }
+  // })
+}
+
 Excel.mix = function(){
   console.log('Started to mixed excels!__________')
   var totalData = [];
@@ -79,6 +163,10 @@ function parseExcel(word,path,name){
           tempData.push(list[i].data[m])
         }
       }
+      var strTempName = tempName;
+      for(var ii=0;ii<strTempName.length;ii++){
+        strTempName = strTempName.replace(/[^\u4e00-\u9fa5a-zA-Z]/,'')
+      }
       //构造生成xls需要的格式
       tempObj.name = tempName;
       tempObj.data = tempData;
@@ -86,7 +174,7 @@ function parseExcel(word,path,name){
       if(tempName === 'undefined'){
         break;
       }
-      fs.writeFileSync('Output/'+name+'/'+tempName+'.xlsx', tempFile, 'utf-8',function(err){
+      fs.writeFileSync('Output/'+name+'/'+strTempName+'.xlsx', tempFile, 'utf-8',function(err){
         if(err){
           console.log(err)
         }
@@ -140,6 +228,7 @@ function readFile(path,filesList){
 
 // var executePath = process.argv.splice(2)+'';
 var filesList = getFileList('./public/InExcel');
+var filesListMerge = getFileList('./public/ExcelNeedMerge')
 var tempObj = {};
 
 function getFileList(path){
