@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Canvas</title>
+  <style>
+    canvas { border: 1px solid black; }
+  </style>
+</head>
+<body>
+  大部分的画布绘制API都不直接在canvas>元素自身上定义的
+  而是定义在一个“绘制上下文”的对象上。
+  可以通过调用画布的getContext()方法获得
+  <ul>
+    <li>CanvasRenderingContext2D：上下文对象</li>
+    <li>画布API指CanvasRenderingContext2D对象上的方法</li>
+    </ul>
+  WebGL 绑定到OpenGL标准API的一个Javascript</br>
+  <canvas id="square" width=1000 height=1000></canvas>
+  <script src='./canvas.js'></script>
+</body>
+</html>

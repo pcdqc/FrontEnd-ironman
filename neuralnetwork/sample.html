@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  <script src="./numericjs.js"></script>
+  <script>
+    // Sigmod function
+    function nonlin(x, deriv) {
+      if (deriv) {
+        return numeric.mul(x, numeric.sub(1, x));
+      }
+
+      return numeric.div(1, numeric.add(1, numeric.exp(numeric.neg(x))));
+    }
+
+    function train_neural(X, y, iteration) {
+      // initialize weights
+      var syn0 = numeric.sub(numeric.mul(2, numeric.random([3, 1])), 1);
+      //Training loop
+      var i = 0;
+      for (; i < iteration; i++) {
+        var l0 = X;
+        var l1 = nonlin(numeric.dot(l0, syn0));
+        var l1_error = numeric.sub(y, l1);
+        var l1_delta = numeric.mul(l1_error, nonlin(l1, true));
+        syn0 = numeric.add(syn0, numeric.dot(numeric.transpose(l0), l1_delta));
+        }
+      }
+
+    //Initial input/ouput values
+    var X = [
+      [0, 0, 1],
+      [0, 1, 1],
+      [1, 0, 1],
+      [1, 1, 1]
+    ];
+
+    var y = [
+      [0],
+      [0],
+      [1],
+      [1]
+    ];
+
+    console.log(train_neural(X, y, 1000));
+  </script>
+</body>
+</html>

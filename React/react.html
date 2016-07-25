@@ -10,23 +10,36 @@
   <body>
     <div id="example"></div>
     <script type="text/babel">
-    var HelloWorld = React.createClass({
-      render: function(){
-        return(
-          <p>
-            你好，<input type="text" placeholder="输入你的名字" />! <br/><br/>
-            现在的时间是:{this.props.date.toTimeString()}
-          </p>
+     var Avatar = React.createClass({
+      render: function () {
+        return (
+          <div>
+            <PagePic pagename={this.props.pagename} />
+            <PageLink pagename={this.props.pagename} />
+          </div>
           );
       }
-    });
-
-    setInterval(function() {
-      ReactDOM.render(
-        <HelloWorld date={new Date()}/>,
-        document.getElementById('example')
-        );
-    },500);
+     });
+     var PagePic = React.createClass({
+      render: function () {
+        return (
+            <img src={'https://graph.facebook.com/'+this.props.pagename +'/picture'} />
+          );
+      }
+     });
+     var PageLink = React.createClass({
+      render: function (){
+        return (
+            <a href={'https://www.facebook.com/'+this.props.pagename} >
+            {this.props.name}
+            </a>
+          )
+      }
+     })
+     ReactDOM.render(
+      <Avatar pagename='Enginerring' />,
+      document.getElementById('example')
+      )
     </script>
   </body>
 </html>

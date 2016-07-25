@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+  #SomeElementYouWantToAnimate{
+    position: absolute;
+  }
+  </style>
+</head>
+<body>
+  <div style="width:1000px;height:1000px;position:relative">
+    <div id="SomeElementYouWantToAnimate">
+    SomeElementYouWantToAnimate
+    </div>
+  </div>
+  <script>
+    (function(){
+      window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+    var start = null;
+    var d = document.getElementById('SomeElementYouWantToAnimate');
+    function step(timestamp){
+      if(start === null) start = timestamp;
+      var progress = timestamp - start;
+      console.log(progress)
+      d.style.left = Math.min(progress/10, 200) +'px';
+      if(progress <2000) {
+        requestAnimationFrame(step)
+      }
+    }
+    requestAnimationFrame(step);
+  })()
+
+
+function mutation(arr) {
+  var str1 = arr[0];
+  var str2 = arr[1];
+
+
+  str1 = str1.toLowerCase();
+  str2 = str2.toLowerCase(); console.log(str1)
+  console.log(str2)
+  for(var i=0,len=str1.length;i<len;i++){
+    for(var j=0,len1=str2.length;j<len1;j++){
+      console.log(len1)
+      console.log(len)
+      if(str1[j].indexOf(str2[i]) == -1){
+        return false
+      }
+    }
+  }
+  return true;
+}
+// console.log(mutation(["hello", "Hello"]));
+// console.log(mutation(["zyxwvutsrqponmlkjihgfedcba", "qrstu"]));
+console.log(mutation(["Mary", "Army"]));
+
+  </script>
+</body>
+</html>
