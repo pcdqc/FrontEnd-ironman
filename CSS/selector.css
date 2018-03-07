@@ -1,0 +1,50 @@
+*{
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+}
+div{
+  width:666px;
+  height:100px;
+  text-align: center;
+}
+h1{
+  width:500px;
+  background-color: #eee;
+  text-indent: 2rem;
+}
+#example1{
+  background-color: aqua;
+}
+.example2{
+  background-color:bisque
+}
+#one,#two{
+  /* 多元素选择器 */
+  color:blue;
+}
+.grandpa{
+  color:white;
+  background-color: black
+}
+.parent{
+  width:80%;
+  background-color: brown
+}
+.children{
+  width:80%;
+  background-color:cadetblue
+}
+.grandpa div{ 
+  /* 空格分隔 后代选择器 */
+  width:100px;
+  float:left;
+}
+.grandpa > div{
+  /* 子选择器 */
+  width:200px;
+}
+.parent + div{
+  /* 毗邻选择器 */
+  background-color: rebeccapurple;
+}
