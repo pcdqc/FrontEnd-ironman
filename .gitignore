@@ -1,0 +1,21 @@
+#gitignore
+.classpath
+.project
+.DS_Store
+log/
+.settings/
+.idea
+/**/**/.idea/
+#nodejs module
+node_modules
+**/node_modules
+**/**/node_modules
+**/**/**/node_modules
+#temp folder
+.tmp
+*.zip
+*.tgz
+*.swp
+/target/
+dev/
+

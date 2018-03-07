@@ -1,3 +1,5 @@
+厚积薄发，砥砺前行
+/**
 0.Other:Scattered knowledge
 
 1.Jseverywhere:将JavaScript进行到底：了不起的Node.JS示例代码(16.3)
@@ -12,3 +14,4 @@
 5.Ninja:javascript忍者秘籍示例代码(16.5-7)
 
 6.DataStructure:JS数据结构
+**/
