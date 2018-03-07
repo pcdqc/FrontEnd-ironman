@@ -41,3 +41,14 @@
 * 链接 []() [CloudAPp](https://www.getcloudapp.com/)
 
 ##粗体与斜体
+用两个**包含一段文本就是粗体的语法
+用一个*包含一段文本就是斜体的语法
+
+##代码框
+‘function foo(a,g){
+  return a+b
+}’
+
+##分割线
+分割线只需要三个***
+***
