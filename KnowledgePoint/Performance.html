@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Performance</title>
+</head>
+<body>
+  <script>
+  function getPerformanceTiming() {
+    if (!performance) {
+      // 当前浏览器不支持
+      console.log('你的浏览器不支持 performance 接口');
+      return;
+    }
+    var t = performance.timing;
+    var times = {};
+
+    //[重要]页面加载完成的时间  几乎代表了用户等待页面可用的时间
+    times.loadPage = t.loadEventEnd - t.navigationStart;
+    console.log('页面加载完成的时间:'+times.loadPage)
+
+    //[重要] 解析DOM 树结构的时间
+    times.domReady = t.domComplete - t.responseEnd;
+    console.log('解析DOM 树结构的时间:'+times.domReady)
+
+    //[重要]重定向的时间 拒绝重定向
+    times.redirect = t.redirectEnd - t.redirectStart;
+    console.log('重定向的时间:'+times.redirect)
+    
+    //[重要] DNS查询时间 DNS与加载做了么？页面内是否使用了太多不同的域名导致域名查询的时间太长
+    // 可使用HTML5 Prefetch预查询DNS 
+    times.lookupDomain = t.domainLookupEnd - t.domainLookupStart;
+    console.log('DNS查询时间:'+times.lookupDomain)
+
+    //[重要]读取页面第一个字节的时间
+    // 这可以理解为用户拿到你的资源占用的时间，加异地机房了么，加CDN处理了么？
+    // TTFB 即Time To First Byte的意思
+    times.ttfb = t.responseStart - t.navigationStart;
+    console.log('读取页面第一个字节的时间:'+times.ttfb)
+
+    //[重要]内容加载完成时间
+    // 页面经过gzip压缩了么 静态资源css js等压缩了么
+    times.request = t.responseEnd - t.requestStart;
+    console.log('内容加载完成时间:'+times.request)
+
+    //[重要]执行onload回调函数的时间
+    // 是否太多不必要的操作都放到onload回调函数里执行了,考虑过延迟加载，按时加载了吗
+    times.loadEvent = t.loadEventEnd - t.loadEventStart;
+    console.log('执行onload回调函数的时间:'+times.loadEvent)
+
+    
+    //DNS缓存时间
+    times.appcache = t.domainLookupStart - t.fetchStart;
+
+    // 卸载页面的时间 
+    times.unloadEvent = t.unloadEventEnd - t.unloadEventStart;
+
+    //TCP建立🔗完成握手的时间
+    times.connect = t.connectEnd - t.connectStart;
+
+  }
+  </script>
+</body>
+</html>

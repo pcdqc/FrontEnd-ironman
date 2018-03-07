@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+<meta name='apple-mobile-web-app-capable' content='yes' />
+<meta name="format-detection" content="telephone=no" />
+<meta http-equiv='Content-Type' content='textml;charset=UTF-8' />
+  <style>
+/* Demo Styles */
+html,body{ min-height:100%; }
+img,input,button,a,select,textarea{ margin: 0; padding: 0; resize:none; border:none; outline:none; }
+ol,ul { list-style:none; }
+h1,h2,h3,h4,h5,h6,p,em{ font-size:100%; word-wrap:break-word; font-weight: normal; font-style: normal; }
+a:active, a:focus{ outline:none; }
+button::-moz-focus-inner,input::-moz-focus-inner{ padding:0; border:0; }
+table{ border-collapse:collapse; border-spacing:0; }
+.clearfix:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; font-size:0; }
+.clearfix{ zoom:1; }
+a{ color: #4c4948; text-decoration: none; }
+
+
+.img{
+    width: 190px;
+    height: 120px;
+    padding: 3px;
+    border: 1px solid #ccc;
+    position: absolute;
+    z-index: 12;
+    top: 50px;
+    left: 50%;
+    margin-left: -95px;
+ }
+ /*动画名字， 动画运行的时间，alternate平滑过渡， infinite是反复执行*/
+ .imgAnimation{
+      animation-name: imgAnimation;
+      animation: imgAnimation 2s alternate;
+      -webkit-animation: imgAnimation 2s alternate ;
+ }
+ @-webkit-keyframes imgAnimation{
+    0%{ left: -198px;top:500px;transform:scale(1)}
+    100%{ top: 50px; left: 50%;transform:scale(0.1);}
+ }
+ </style>
+</head>
+<body>
+
+     <div class="img imgAnimation">
+         <img class="" src="./game2.png" id="img"/>
+     </div>
+     <script type="text/javascript">
+        let img = document.getElementById('img')
+        console.log(img)
+        img.addEventListener('webkitAnimationEnd',function(x){
+            console.log(x)
+        },false)
+     </script>
+</body>
+</html>

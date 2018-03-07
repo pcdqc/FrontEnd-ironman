@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Currying</title>
+</head>
+<body>
+    <script>
+    var add = function(x) {
+        return function(y) {
+            return x + y;
+        };
+    };
+    console.log(add(1)(1));
+
+    var add1 = add(1)
+    console.log(add1(1));
+
+    var add2 = add(10)
+    console.log(add2(10));
+    </script>
+</body>
+</html>

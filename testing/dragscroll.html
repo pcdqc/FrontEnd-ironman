@@ -1,0 +1,20 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+        <meta charset="UTF-8" />  
+        <title>Document</title>  
+        <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+</head>  
+<body>  
+<!-- d1是外层div，带滚动条 -->  
+       <div id='d1' style='height:200px;width:100px;overflow:scroll;background:blue;'>  
+             <div style='height:500px;width:500px;background:yellow'>2222</div>  
+       </div>  
+</body>  
+<script>  
+       $('#d1').animate({scrollTop:"100",scrollLeft:'200'},2000,'swing',function(){alert(1);});  
+</script>  
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>IntersectionObserver</title>
+  <style>
+  img{
+    width:100%;
+    height:500px;
+    display:block;
+    margin:20px;
+    border:1px solid #ccc;
+    background: url('../imgs/1.png')no-repeat 100%;
+  }
+  </style>
+</head>
+<body>
+  <div>
+    <img data-src="../imgs/1.png" alt="">
+    <img data-src="../imgs/2.png" alt="">
+    <img data-src="../imgs/3.png" alt="">
+    <img data-src="../imgs/4.png" alt="">
+    <img data-src="../imgs/5.png" alt="">
+    <img data-src="../imgs/6.png" alt="">
+    <img data-src="../imgs/7.png" alt="">
+  </div>
+  <script>
+  let option = {
+    root:null,//用于观察的根元素，默认是浏览器的视口，也可以指定具体元素，指定元素的时候用于观察的元素必须是指定元素的子元素
+    threshold:[0,1], //用来指定交叉比例，决定什么时候触发回调函数，是一个数组，默认是[0] [0,.5,1]代表img0%、50%、100%时候就会触发回调函数。
+    rootMargin: '' //用来扩大或者缩小视窗的的大小，使用css的定义方法
+  }
+  function callback(entries) {
+    console.log(entries)
+    entries.forEach( (item) =>{
+      if(item.isIntersecting) {
+        item.target.src = item.target.dataset.src;
+        io.unobserve(item.target)
+      }
+    })
+  }
+  const io = new IntersectionObserver(callback,option)
+
+  let imgs = document.querySelectorAll('[data-src]');
+  imgs.forEach((item) => {
+    io.observe(item)
+  })
+  // destructuringArray( [1,[2,4],3], "[a,[b],c]" );
+  // result
+  // { a:1, b:2, c:3 }
+  
+  // function destructuringArray(arr, str) {
+  //   let obj = {};
+  //   let keys = JSON.parse(str.replace(/\w+/g, '"$&"'));
+  //   console.log(keys)
+  //   arr.forEach((item,index) => {
+  //     var  keyVal = keys[index]
+  //     obj[`${keyVal}`] = Array.isArray(item) ? item[0]: item
+  //   })
+  //   return obj
+  // }
+  // var a = destructuringArray( [1,[2,4],3], "[a,[b],c]" )
+  // console.log(a)
+
+  const targetArray = [1, [2, 3], 4];
+  const formater = "[a, [b], c]";
+  const formaterArray = ['a', ['b'], 'c'];
+
+  const destructuringArray = (values, keys) => {
+    try {
+      const obj = {};
+      if (typeof keys === 'string') {
+        keys = JSON.parse(keys.replace(/\w+/g, '"$&"'));
+      }
+      console.log(keys)
+      const iterate = (values, keys) =>
+        keys.forEach((key, i) => {
+          if(Array.isArray(key)) iterate(values[i], key)
+          else obj[key] = values[i]
+        })
+        
+      iterate(values, keys)
+      
+      return obj;
+    } catch (e) {
+      console.error(e.message);
+    }
+  }
+
+  console.dir(destructuringArray(targetArray,formater));
+  console.dir(destructuringArray(targetArray,formaterArray));
+
+  </script>
+</body>
+</html>

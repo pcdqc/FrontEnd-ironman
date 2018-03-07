@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script src="./underscore.js"></script>
+  <script>
+    function lyricsSegment(n) {
+      return _.chain([])
+        .push(n + ' bottles of beer on the wall ')
+        .push(n + " bottles of beer ")
+        .push("Take one down, pass it around ")
+        .tap(function(lyrics) {
+          if(n > 1){
+            lyrics.push((n - 1) + " bottles of beer on the wall. ")
+          }else{
+            lyrics.push("No more bottles of beer on the wall! ");
+          }
+        })
+        .value();
+    }
+    var a = lyricsSegment(9)
+    console.log(a)
+    function song(start, end, lyricGen) {
+      return _.reduce(_.range(start, end, -1), function(acc, n) {
+        return acc.concat(lyricGen(n));
+      }, []);
+    }
+    var b = song(99, 0 , lyricsSegment)
+    console.log(b.join(""))
+
+    /**
+     * 基于原型的面向对象变成
+     *
+     */ 
+    var bFunc = function(){ return this}
+    var b = {name: 'b', func: bFunc}
+    console.log(b.func())
+  </script>
+</body>
+</html>

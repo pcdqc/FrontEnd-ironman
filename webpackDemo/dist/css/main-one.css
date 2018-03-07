@@ -1,0 +1,19 @@
+html,body{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background: -webkit-gradient(linear, left top, left bottom, from(#abcdef), to(#f3f5f7));
+    background: -webkit-linear-gradient(top, #abcdef, #f3f5f7);
+    background: -o-linear-gradient(top, #abcdef, #f3f5f7);
+    background: linear-gradient(to bottom, #abcdef, #f3f5f7);
+}
+.flexbox{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    background: -webkit-gradient(linear, left top, left bottom, from(#abcdef),to(#096));
+    background: -webkit-linear-gradient(top, #abcdef,#096);
+    background: -o-linear-gradient(top, #abcdef,#096);
+    background: linear-gradient(to bottom, #abcdef,#096);
+}
