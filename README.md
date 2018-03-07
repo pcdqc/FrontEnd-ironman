@@ -9,7 +9,7 @@
 1. Jseverywhere:将JavaScript进行到底：了不起的Node.JS示例代码(16.3)
 
 2.  Express + MongoDB 搭建多人博客
-    >Http:https://github.com/nswbmw/N-blog使用 (before16)
+    [参考地址](Http:https://github.com/nswbmw/N-blog使用) (before16)
   
 3. Koa:   koa学习Demo(16.6-7)
 
@@ -29,6 +29,7 @@
 1. 有序列表项目1
 2. 有序列表项目2
 3. 有序列表项目3
+
 * 无序列表项目1
 * 无序列表项目2
 * 无序列表项目3
@@ -37,18 +38,19 @@
 >这是一个引用
 
 ##链接和图片
-* 图片为 ![图片](https://cl.ly/1v332k1t0A3X) 图片的地址需要图床 
+* 图片为 ![图片](https://d.pr/i/2BCKys) ;图片的地址需要图床 
 * 链接 []() [CloudAPp](https://www.getcloudapp.com/)
 
 ##粗体与斜体
-用两个**包含一段文本就是粗体的语法
-用一个*包含一段文本就是斜体的语法
+用两个**包含一段文本就是粗体的语法**
+
+用一个*包含一段文本就是斜体的语法*
 
 ##代码框
-‘function foo(a,g){
+`function foo(a,g){
   return a+b
-}’
+}`
 
 ##分割线
-分割线只需要三个***
+分割线只需要三个*
 ***

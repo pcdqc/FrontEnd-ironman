@@ -1,9 +1,11 @@
-#ES6 module基础知识:
+##ES6 module基础知识:
+
 每一个ES6模块都是一个包含JS代码的文件，模块本质上就是一段脚本，而不是用module关键字定义一个模块，但是模块与脚本还是有两点区别：
 * 在ES6模块中，无论你是否加入“use strict;”语句，默认情况下模块都是在严格模式下运行。
 * 在模块中你可以使用import和export关键字。
 export  
 你可以导出所有的最外层函数、类以及var、let或const声明的变量。
+
 `export function foo(){}
 export class Foo{};
 export Var foo = ‘123’;
