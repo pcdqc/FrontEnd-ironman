@@ -1,48 +1,55 @@
-const path = require('path')
-module.exports = {
-  entry: './src/index.js',
-  output: {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist')
-  },
-  module: {
-    rules: [
-      {
-        test: /\.css$/,
-        use: [
-          'style-loader',
-          'css-loader'
-        ]
-      },
-      {
-        test: /\.(png|jpg|gif|svg)/,
-        use: [
-          {
-            loader: 'url-loader',
-            options: {
-              limit: 10000
-            }
-          }
-        ]
-      },
-      {
-        test: /\.(woff|woff2|eot|ttf|otf)$/,
-        use: [
-          'file-loader'
-        ]
-      },
-      {
-        test: /\.(csv|tsv)$/,
-        use: [
-          'csv-loader'
-        ]
-      },{
-        test: /\.xml$/,
-        use: [
-          'xml-loader'
-        ]
-      }
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+// const ManifestPlugin = require('webpack-manifest-plugin');
+const webpack = require('webpack');
 
+module.exports = {
+  mode: 'development',
+  entry: {
+    index: './src/index.js',
+    // print: './src/print.js',
+    // another: './src/another-module.js'
+  },
+  output: {
+    filename: '[name].bundle.js',
+    // chunkFilename: '[name].bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/'
+  },
+  // devtool: 'inline-source-map',
+  devServer: {
+    contentBase: './dist',
+    compress: true,
+    hot: true,
+    progress: true,
+    // https: false,
+    inline: true,
+  },
+  module:{
+    rules:[
+      {
+        test: '/\.js$/',
+        exclude: /node_modules/,
+        use:['babel-loader']
+      }
     ]
-  }
+  },
+  plugins: [
+    new CleanWebpackPlugin(['dist']),
+    new HtmlWebpackPlugin({
+      title: 'Development'
+    }),
+    new webpack.HotModuleReplacementPlugin()
+    // new ManifestPlugin(),
+  ],
+  // optimization: {
+  //   splitChunks: {
+  //     cacheGroups: {
+  //       name:'common',
+  //       test:'common',
+  //       enforce:'true'
+  //     }
+  //   }
+  // },
 };
