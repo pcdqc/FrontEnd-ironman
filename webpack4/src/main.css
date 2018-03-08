@@ -1,0 +1,10 @@
+@font-face{
+  font-family: 'Hughs';
+  src: url('./fonts/Hughs.otf');
+  font-weight: 600;
+  font-style: normal;
+}
+body{
+  background-color: aquamarine;
+  background: url(./images/house.jpg)no-repeat center;
+}
