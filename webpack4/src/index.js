@@ -1,6 +1,7 @@
 import _ from 'lodash'
-/*import printMe from './print'
-function component() {
+import printMe from './print'
+import './style.css'
+/*function component() {
   var ele = document.createElement('div');
   var btn = document.createElement('button');
   
@@ -57,7 +58,7 @@ function componentWithClick() {
   let button = document.createElement('button');
   let br = document.createElement('br')
 
-  button.innerHTML = 'CLick me and look at the console!'
+  button.innerHTML = '123123CLick 1m1111231231e and look at the console!'
   element.innerHTML = _.join(['Hello', 'async Webpack'], '');
   element.appendChild(br)
   element.appendChild(button);
@@ -70,3 +71,16 @@ function componentWithClick() {
   return element
 }
 document.body.appendChild(componentWithClick())
+if (module.hot) {
+  module.hot.accept('./print.js', function() {
+    console.log('Accepeting the updated printMe module!');
+    printMe();
+  })
+}
+
+
+import Vue from 'vue'
+import App from './app.vue'
+new Vue({
+  render: h=> h(App)
+}).$mount('#app')
