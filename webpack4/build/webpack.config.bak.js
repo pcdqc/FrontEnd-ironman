@@ -4,6 +4,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 // const ManifestPlugin = require('webpack-manifest-plugin');
 const webpack = require('webpack');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
   mode: 'development',
@@ -21,11 +22,11 @@ module.exports = {
   // devtool: 'inline-source-map',
   devServer: {
     contentBase: './dist',
-    compress: false,
-    hot: true,
-    progress: true,
-    https: false,
-    inline: true,
+    // compress: false,
+    // hot: true,
+    // progress: true,
+    // https: false,
+    // inline: true,
   },
   module:{
     rules:[
@@ -82,10 +83,11 @@ module.exports = {
       filename: 'index.html',
       template: 'index.html'
     }),
-    new ExtractTextPlugin("style.css"),
+    new UglifyJSPlugin(),
+    // new ExtractTextPlugin("style.css"),
     // 查看要修补(patch)的依赖
-    new webpack.NamedModulesPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
+    // new webpack.NamedModulesPlugin(),
+    // new webpack.HotModuleReplacementPlugin(),
     // new ManifestPlugin(),
   ],
   // optimization: {

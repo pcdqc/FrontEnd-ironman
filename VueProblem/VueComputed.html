@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Vue Computed</title>
+</head>
+<body>
+  <script>
+  var Dep = null;
+  function defineReactive (obj, key, val) {
+    var deps = [];
+    Object.defineProperty(obj, key, {
+      get: function () {
+        if (Dep) {
+          deps.push(Dep); //4
+        }
+        return val;
+      },
+      set: function (newVal) {
+        val = newVal;
+        deps.forEach(func => func())
+      }
+    })
+  }
+  function defineComputed (obj, key, func) {
+    func = func.bind(obj);
+    var value;
+    Dep = function () {
+      value = func(); //1
+    };
+    value = func();  //2
+    Dep = null;
+    Object.defineProperty(obj, key, {
+      get: function () {
+        return value;
+      }
+    })
+  }
+
+  var obj = {};
+  defineReactive(obj, 'a' , 0);
+  defineComputed(obj, 'b', function(){
+    var a = this.a; //3
+    return a + 1;
+  })
+  console.log(obj.b);
+  obj.a += 1;
+  console.log(obj.b);  
+  </script>
+</body>
+</html>

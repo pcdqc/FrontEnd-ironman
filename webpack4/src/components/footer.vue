@@ -2,13 +2,13 @@
   <div class="footer">{{title}}</div>
 </template>
 
-<style lang="sass">
+<style lang="scss">
 .footer{
-  position:absolute;
+  position:fixed;
   bottom:0;
   left:0;
   width:px2percent(1000,1080);
-  height:85px;
+  height:30px;
   background-color:brown;
   text-align:center;
 }

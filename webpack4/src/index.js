@@ -1,6 +1,9 @@
-import _ from 'lodash'
-import printMe from './print'
-import './style.css'
+// import _ from 'lodash'
+// import printMe from './print'
+// import './style.css'
+if (process.env.NODE_ENV !== 'production') {
+  console.log('Looks like we are in development mode!');
+}
 /*function component() {
   var ele = document.createElement('div');
   var btn = document.createElement('button');
@@ -15,7 +18,6 @@ import './style.css'
 }
 document.body.appendChild(component())
 */
-console.log('hello')
 // function getComponent(){
 //   /**
 //    * 动态导入来分离一个chunk
@@ -53,34 +55,49 @@ console.log('hello')
 //   document.body.appendChild(c);
 // })
   
-function componentWithClick() {
-  let element = document.createElement('div');
-  let button = document.createElement('button');
-  let br = document.createElement('br')
+// function componentWithClick() {
+//   let element = document.createElement('div');
+//   let button = document.createElement('button');
+//   let br = document.createElement('br')
 
-  button.innerHTML = '123123CLick 1m1111231231e and look at the console!'
-  element.innerHTML = _.join(['Hello', 'async Webpack'], '');
-  element.appendChild(br)
-  element.appendChild(button);
+//   button.innerHTML = '123123CLick 1m1111231231e and look at the console!'
+//   element.innerHTML = _.join(['Hello', 'async Webpack'], '');
+//   element.appendChild(br)
+//   element.appendChild(button);
 
-  button.onclick = e => import(/* webpackChunkName: "print" */ './print').then(module => {
-    let print = module.default
+//   button.onclick = e => import(/* webpackChunkName: "print" */ './print').then(module => {
+//     let print = module.default
 
-    print();
-  })
-  return element
-}
-document.body.appendChild(componentWithClick())
-if (module.hot) {
-  module.hot.accept('./print.js', function() {
-    console.log('Accepeting the updated printMe module!');
-    printMe();
-  })
-}
+//     print();
+//   })
+//   return element
+// }
+// document.body.appendChild(componentWithClick())
+// if (module.hot) {
+//   module.hot.accept('./print.js', function() {
+//     console.log('Accepeting the updated printMe module!');
+//     printMe();
+//   })
+// }
 
 
 import Vue from 'vue'
 import App from './app.vue'
+import axios from 'axios'
+Vue.prototype.axios = axios;
 new Vue({
   render: h=> h(App)
 }).$mount('#app')
+
+// import { cube } from  './math.js';
+// function componentTreeShaking () {
+//   var element = document.createElement('pre');
+//   element.innerHTML = [
+//     'Hello webpack!',
+//     '5 cubed is equal11111222 to ' + cube(5)
+//   ].join('\n\n');
+
+//   return element;
+// }
+
+// document.body.appendChild(componentTreeShaking());

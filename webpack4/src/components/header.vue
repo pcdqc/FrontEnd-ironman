@@ -2,7 +2,7 @@
   <div class="header">{{title}}</div>
 </template>
 
-<style lang="sass">
+<style lang="scss">
 .header{
   width:px2percent(1000,1080);
   height:85px;
