@@ -18,7 +18,7 @@
         alert(data.name);
         console.log('11111')
       }
-      var arr = [],
+     var arr = [],
         max = 1000;
       for (var i = 1; arr.push(i++) < max;);
 
