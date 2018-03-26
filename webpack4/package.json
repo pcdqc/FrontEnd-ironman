@@ -5,10 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "npm run test",
-    "build": "webpack --config build/webpack.prod.conf.js",
-    "watch": "webpack --watch",
-    "dev": "webpack-dev-server --inline --public --config build/webpack.dev.conf.js",
-    "server": "node server.js"
+    "build:single": "webpack --config config/webpack.config.single.js",
+    "build:multi": "webpack --config config/webpack.config.multiple.js"
   },
   "repository": {
     "type": "git",
