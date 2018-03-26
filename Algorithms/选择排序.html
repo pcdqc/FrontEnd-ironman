@@ -19,12 +19,11 @@
       console.log('--------------')
       console.log(arr)
       var index = i
-      var min = v[i]
+      var min = arr[i]
       var temp = ''
       for(var j=i+1;j<len;j++){
-        console.log(arr)
         if(arr[j]<min){
-          min = v[j];
+          min = arr[j];
           index = j;
         }
       }
@@ -32,7 +31,18 @@
     return arr;
   }
   console.log(selectSort(arr))
-  console.log(arr.sort(function(a,b){return a-b}))
+  console.log(arr.sort(function(a,b){return a-b}));
+
+    (function() {
+      console.log(x)
+      console.log(foo)
+      var x = y = 1;
+      var foo = function() { return a };
+      console.log(x)
+      console.log(foo)
+    })()
+    // console.log(x)
+    console.log(y)
   </script>
 </body>
 </html>
