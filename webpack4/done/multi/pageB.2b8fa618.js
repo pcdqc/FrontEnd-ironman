@@ -44,5 +44,5 @@ module.exports = __webpack_require__(/*! /Users/johnsig/MI/Chaos/FrontEnd-ironma
 
 /***/ })
 
-},[[1,"vendor"]]]);
+},[[1,"runtime~pageB"]]]);
 //# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vLi9zcmMvbXVsdGlwbGUvanMvdXRpbEIuanMiLCJ3ZWJwYWNrOi8vLy4vc3JjL211bHRpcGxlL3BhZ2VCLmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7O0FBQUEsc0U7Ozs7Ozs7Ozs7Ozs7O0FDQUE7QUFDQTtBQUNBO0FBQ0E7QUFDQSxDQUFDO0FBQ0QsUSIsImZpbGUiOiJwYWdlQi4yYjhmYTYxOC5qcyIsInNvdXJjZXNDb250ZW50IjpbImV4cG9ydCBkZWZhdWx0ICd1dGlsQiciLCJpbXBvcnQgdXRpbEIgZnJvbSAnLi9qcy91dGlsQi5qcydcbmNvbnNvbGUubG9nKHV0aWxCKVxuY29uc3QgdXRpbEMgPSAoKSA9PiByZXF1aXJlLmVuc3VyZShbJy4vanMvdXRpbEMnXSwgZnVuY3Rpb24ocmVxdWlyZSl7XG4gIGNvbnNvbGUubG9nKHJlcXVpcmUoJy4vanMvdXRpbEMnKSlcbn0pO1xudXRpbEMoKTsiXSwic291cmNlUm9vdCI6IiJ9

@@ -1,23 +1,17 @@
-const webpack = require('webpack') 
 const path = require('path')
+const webpack = require('webpack')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 module.exports = {
   entry: {
-    pageA: [path.resolve(__dirname, '../src/multiple/pageA.js')],
-    pageB: [path.resolve(__dirname, '../src/multiple/pageB.js')]
+    pageA: path.resolve(__dirname, '../src/hoist/pageA.js'),
+    pageB: path.resolve(__dirname, '../src/hoist/pageB.js'),
   },
   output: {
     path: path.resolve(__dirname, '../dist'),
-    filename: '[name].[chunkhash:8].js',
+    filename: '[name].[chunkhash:8].js'
   },
-  // module: {
-  //   rules: [{
-  //       test: /\.special\.json$/,
-  //       type: "javascript/auto",
-  //       use: "special-loader"
-  //   }]
-  // },
   plugins: [
+    new webpack.optimize.ModuleConcatenationPlugin(),
     new CleanWebpackPlugin(['dist'],{
         root: path.resolve(__dirname, '../'), //制定插件根目录位置
         verbose: true, //开启控制台输出信息

@@ -1,24 +1,25 @@
   (function(modules) { // webpackBootstrap
   	// The module cache
-  	var installedModules = {};
+  	var installedModules = {}; //用来来缓存已经加载过的模块
  
   	// The require function
-  	function __webpack_require__(moduleId) {
+  	function __webpack_require__(moduleId) { //来加载模块的函数，接收一个 moduleId 的形参，也就是模块的 id 值
  
   		// Check if module is in cache
-  		if(installedModules[moduleId]) {
-  			return installedModules[moduleId].exports;
+  		if(installedModules[moduleId]) { //判断 moduleId 对应的模块是否已被缓存
+  			return installedModules[moduleId].exports; //直接返回模块的输出 exports
   		}
   		// Create a new module (and put it into the cache)
-  		var module = installedModules[moduleId] = {
-  			i: moduleId,
-  			l: false,
-  			exports: {}
+  		var module = installedModules[moduleId] = { 
+  			i: moduleId, //i 表示模块 id 值，
+  			l: false,	//l 表示是否被加载，
+  			exports: {} //exports 表示模块的输出结果对象。
   		};
  
   		// Execute the module function
   		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
- 
+			//通过 moduleId 从 modules 内找到模块的函数代码块，使用 call 方法绑定函数内的 this 指向 module.exports，传入三个实参 module module.exports __webpack_require__
+			
   		// Flag the module as loaded
   		module.l = true;
  
@@ -68,7 +69,8 @@
   	// Load entry module and return exports
   	return __webpack_require__(__webpack_require__.s = 0);
   })
-  (/*参数*/ { 
+	(/*参数*/ 
+		{ 
 
  "./src/single/index.js": (function(module, __webpack_exports__, __webpack_require__) {
 

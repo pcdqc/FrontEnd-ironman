@@ -6,7 +6,9 @@
   "scripts": {
     "test": "npm run test",
     "build:single": "webpack --config config/webpack.config.single.js",
-    "build:multi": "webpack --config config/webpack.config.multiple.js"
+    "build:multi": "webpack --config config/webpack.config.multiple.js",
+    "build:tree": "webpack --config config/webpack.config.tree.js",
+    "build:hoist": "webpack --config config/webpack.config.hoist.js"
   },
   "repository": {
     "type": "git",
