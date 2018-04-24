@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <script src="./jquery.3.3.1.uncompress.js"></script>
+  <script>
+    /*（1）基本类型：
+    6种基本数据类型Undefined、Null、Boolean、Number 、Symbol 和 String，变量是直接按值存放的，存放在 栈内存 中的简单数据段,且空间相互独立,通过值来访问。
+    val1  foo
+    val2  val1
+
+    （2）引用类型：
+    存放在 堆内存 中的对象，变量保存的是一个指针，这个指针指向另一个位置。当需要访问引用类型（如对象，数组等）的值时，首先从栈中获得该对象的地址指针，然后再从堆内存中取得所需的数据。
+
+    JavaScript存储对象都是存地址的，所以浅拷贝会导致 obj1 和obj2 指向同一块内存地址。改变了其中一方的内容，都是在原来的内存上做修改会导致拷贝对象和源对象都发生改变，而深拷贝是开辟一块新的内存地址，将原对象的各个属性逐个复制进去。对拷贝对象和源对象各自的操作互不影响。
+    */
+    //克隆对象
+    const oldObj = {
+      a: 1,
+      b: ['1','2','3'],
+      c: { d: { e: 2} }
+    }
+    //浅克隆函数
+    function shallowClone(o) {
+      const obj = {};
+      for( let i in o) {
+        obj[i] = o[i];
+      }
+      // http://bosn.me/js/js-call-by-sharing/
+      return obj;
+    }
+    let shadowDevil = shallowClone(oldObj);
+    console.log(shadowDevil)
+    console.log(shadowDevil == oldObj);
+    
+    console.log(oldObj.c.d == shadowDevil.c.d); //深层的对象 依然通过饮用指向同一块堆内存
+    //意味着对克隆后的对象的更改依然可以改变原对象 不好
+    shadowDevil.c.d.e = 'new Val';
+    // console.log(oldObj.c.d.e)
+    
+    
+    let copy = Object.assign({}, oldObj);
+    // console.log(copy)
+    
+    //assign polyfill();
+    if (typeof Object.assign != 'function') {
+      // Must be writable: true, enumerable: false, configurable: true
+      Object.defineProperty(Object, "assign", {
+        value: function assign(target, varArgs) { // .length of function is 2
+          'use strict';
+          if (target == null) { // TypeError if undefined or null
+            throw new TypeError('Cannot convert undefined or null to object');
+          }
+
+          var to = Object(target);
+
+          for (var index = 1; index < arguments.length; index++) {
+            var nextSource = arguments[index];
+
+            if (nextSource != null) { // Skip over if undefined or null
+              for (var nextKey in nextSource) {
+                // Avoid bugs when hasOwnProperty is shadowed
+                if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
+                  to[nextKey] = nextSource[nextKey];
+                }
+              }
+            }
+          }
+          return to;
+        },
+        writable: true,
+        configurable: true
+      });
+    }
+
+    //深克隆
+    /*1 JSON.parse */
+    const newObj1 = JSON.parse(JSON.stringify(oldObj));
+    // console.log(newObj1);
+    // console.log(oldObj.c.d == newObj1.c.d);
+
+    const olbNewObj = {
+      a: (word) => {
+        console.log(word)
+      }
+      ,b: /^\d$/,
+      c: { d: 'a value d'}
+    }
+    // const newObj2 = JSON.parse(JSON.stringify(olbNewObj));
+    // console.log(newObj2);
+    // console.log(olbNewObj.a == newObj2.a);
+
+    /*
+    问题一 无法复制函数 正则等特殊对象
+    JSON.stringify(value[, replacer [, space]]) 值  序列化函数 缩进用的空白字符串
+
+    非数组对象的属性不能保证以特定的顺序出现在序列化后的字符串中。
+    布尔值、数字、字符串的包装对象在序列化过程中会自动转换成对应的原始值。
+    undefined、任意的函数以及 symbol 值，在序列化过程中会被忽略（出现在非数组对象的属性值中时）或者被转换成 null（出现在数组中时）。
+    所有以 symbol 为属性键的属性都会被完全忽略掉，即便 replacer 参数中强制指定包含了它们。
+    不可枚举的属性会被忽略
+
+    问题2 对象有循环引用会报错
+
+    问题3 不管这个对象原来的构造函数是什么，在深拷贝之后都会变成Object。
+    */
+    const oldCycle = {};
+
+    oldCycle.a = oldCycle;
+    // const newObj3 = JSON.parse(JSON.stringify(oldCycle)) //deepclone.html:101 Uncaught TypeError: Converting circular structure to JSON
+
+    const isType = (obj, type) => {
+      if (typeof obj !== 'object') return false;
+      const typeString = Object.prototype.toString.call(obj);
+      let flag;
+      switch (type) {
+        case 'Array':
+          flag = typeString === '[object Array]';
+          break;
+        case 'Date':
+          flag = typeString === '[object Date]';
+          break;
+        case 'RegExp':
+          flag = typeString === '[object RegExp]';
+          break;
+        default:
+          flag = false;
+      }
+
+    const clone = parent => {
+        // 维护两个储存循环引用的数组
+        const parents = [];
+        const children = [];
+
+        const _clone = parent => {
+          if (parent === null) return null;
+          if (typeof parent !== 'object') return parent;
+
+          let child, proto;
+
+          if (isType(parent, 'Array')) {
+            // 对数组做特殊处理
+            child = [];
+          } else if (isType(parent, 'RegExp')) {
+            // 对正则对象做特殊处理
+            child = new RegExp(parent.source, getRegExp(parent));
+            if (parent.lastIndex) child.lastIndex = parent.lastIndex;
+          } else if (isType(parent, 'Date')) {
+            // 对Date对象做特殊处理
+            child = new Date(parent.getTime());
+          } else {
+            // 处理对象原型
+            proto = Object.getPrototypeOf(parent);
+            // 利用Object.create切断原型链
+            child = Object.create(proto);
+          }
+
+          // 处理循环引用
+          const index = parents.indexOf(parent);
+
+          if (index != -1) {
+            // 如果父数组存在本对象,说明之前已经被引用过,直接返回此对象
+            return children[index];
+          }
+          parents.push(parent);
+          children.push(child);
+
+          for (let i in parent) {
+            // 递归
+            child[i] = _clone(parent[i]);
+          }
+
+          return child;
+        };
+        return _clone(parent);
+      };
+
+    }
+    function person(pname) {
+      this.name = pname;
+    }
+
+    const Messi = new person('Messi');
+
+    function say() {
+      console.log('hi');
+    }
+
+    const oldObj10 = {
+      a: say,
+      c: new RegExp('ab+c', 'i'),
+      d: Messi,
+    };
+
+    oldObj10.b = oldObj10;
+
+
+    // const newObj10 = clone(oldObj10);
+    // console.log(newObj10.a, oldObj10.a); // [Function: say] [Function: say]
+    // console.log(newObj10.b, oldObj10.b); // { a: [Function: say], c: /ab+c/i, d: person { name: 'Messi' }, b: [Circular] } { a: [Function: say], c: /ab+c/i, d: person { name: 'Messi' }, b: [Circular] }
+    // console.log(newObj10.c, oldObj10.c); // /ab+c/i /ab+c/i
+    // console.log(newObj10.d.constructor, oldObj10.d.constructor); 
+
+    let objOldJqueryA = {},
+      objOldJqueryB = {};
+      objOldJqueryA.a = objOldJqueryB;
+      objOldJqueryB.B = objOldJqueryA;
+    let objJquery = jQuery.extend(objOldJqueryA,objOldJqueryB)
+    console.log(objJquery);
+    jQuery.extend = jQuery.fn.extend = function() { //给jQuery对象和jQuery原型对象都添加了extend扩展方法
+      var options, name, src, copy, copyIsArray, clone, target = arguments[0] || {},
+      i = 1,
+      length = arguments.length,
+      deep = false;
+      //以上其中的变量：options是一个缓存变量，用来缓存arguments[i]，
+      // name是用来接收将要被扩展对象的key，src改变之前target对象上每个key对应的value。
+      //copy传入对象上每个key对应的value，copyIsArray判定copy是否为一个数组，clone深拷贝中用来临时存对象或数组的src。
+
+      // 处理深拷贝的情况
+      if (typeof target === "boolean") {
+        deep = target;
+        target = arguments[1] || {};
+        //跳过布尔值和目标 
+        i++;
+      }
+
+      // 控制当target不是object或者function的情况
+      if (typeof target !== "object" && !jQuery.isFunction(target)) {
+        target = {};
+      }
+
+      // 当参数列表长度等于i的时候，扩展jQuery对象自身。
+      if (length === i) {
+        target = this; --i;
+      }
+      for (; i < length; i++) {
+        if ((options = arguments[i]) != null) {
+          // 扩展基础对象
+          for (name in options) {
+            src = target[name];	
+            copy = options[name];
+
+            console.log(target)
+            console.log(copy)
+            // 防止永无止境的循环，这里举个例子，
+              // 如 var a = {name : b};
+              // var b = {name : a}
+              // var c = $.extend(a, b);
+              // console.log(c);
+              // 如果没有这个判断变成可以无限展开的对象
+              // 加上这句判断结果是 {name: undefined}
+            if (target === copy) {
+              continue;
+            }
+            if (deep && copy && (jQuery.isPlainObject(copy) || (copyIsArray = jQuery.isArray(copy)))) {
+              if (copyIsArray) {
+                copyIsArray = false;
+                clone = src && jQuery.isArray(src) ? src: []; // 如果src存在且是数组的话就让clone副本等于src否则等于空数组。
+              } else {
+                clone = src && jQuery.isPlainObject(src) ? src: {}; // 如果src存在且是对象的话就让clone副本等于src否则等于空对象。
+              }
+              // 递归拷贝
+              target[name] = jQuery.extend(deep, clone, copy);
+            } else if (copy !== undefined) {
+              target[name] = copy; // 若原对象存在name属性，则直接覆盖掉；若不存在，则创建新的属性。
+            }
+          }
+        }
+      }
+      // 返回修改的对象
+      return target;
+    };
+    */
+    
+  </script>
+</body>
+</html>
