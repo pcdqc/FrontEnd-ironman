@@ -1,0 +1,14 @@
+syntax = "proto2";
+package com.wali.knights.proto;
+
+import "HolyCup.proto";
+
+option java_package = "com.wali.knights.proto";
+option java_outer_classname = "GameUserHolyCupProto";
+
+//某个游戏下用户获取的圣杯列表
+message GameUserHolyCup {
+    optional HolyCup holyCup                  = 1; //圣杯信息
+    optional uint32 holyCupCount              = 2; //圣杯个数
+    optional uint32 userHolyCupCount          = 3; //用户获取的个数
+}

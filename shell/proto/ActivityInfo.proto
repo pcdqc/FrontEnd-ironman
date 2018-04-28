@@ -1,0 +1,34 @@
+syntax = "proto2";
+package com.wali.knights.proto;
+
+import "AwardInfo.proto";
+import "VideoInfo.proto";
+
+option java_package = "com.wali.knights.proto";
+option java_outer_classname = "ActivityInfoProto";
+
+message ActivityInfo {
+    required uint32 actId                           = 1; //活动Id
+    optional string name                            = 2; // 活动名称
+    optional uint32 type                            = 3; //类型 1=普通活动，2=抖M挑战赛,3=暑期活动
+    optional uint64 beginTime                       = 4; //开始时间
+    optional uint64 endTime                         = 5; // 结束时间
+    optional uint32 status                          = 6;  // 活动编辑状态：1 上线 2 下线
+    optional string actUrl                          = 7; //活动跳转地址
+    optional uint64 gameId                          = 8; // 游戏Id
+    optional string icon                            = 9; // 活动banner
+    optional string gameIntroduce                   = 10; // 游戏简介
+    optional string BattlefieldTitle                = 11; // 战报标题
+    optional string BattlefieldContent              = 12; // 战报内容
+    optional string wonderfulVideoUrl               = 13;  //精彩视频合集地址
+    optional string videoheight                     = 14; //视频高度
+    optional string videoWidth                      = 15; //视频宽度
+    optional string videoImgUrl                     = 16; // 视频封面地址
+    repeated AwardInfo AwardInfo                    = 17;  //奖品信息
+    optional float videoSize                        = 18; //视频大小
+    optional uint64 awardEndTime                    = 19; //领奖截止时间
+    optional string banner                          = 20; //活动banner
+    optional string wonderful_video_id              = 21; //集锦视频Id
+    optional VideoInfo videoInfo              		= 22; //活动集锦视频信息（只在下发给客户端时候会有）
+    optional string warnLable                       = 23; //注意事项
+}

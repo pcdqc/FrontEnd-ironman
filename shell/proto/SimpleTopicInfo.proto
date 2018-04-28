@@ -1,0 +1,11 @@
+syntax = "proto2";
+package com.wali.knights.proto;
+
+option java_package = "com.wali.knights.proto";
+option java_outer_classname = "SimpleTopicInfoProto";
+
+//奖品信息
+message SimpleTopicInfo {
+    optional uint32 topicId                         = 1;//话题Id
+    optional string name                            = 2;//话题名称
+}

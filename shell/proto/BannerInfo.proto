@@ -1,0 +1,13 @@
+syntax = "proto2";
+package com.wali.knights.proto;
+
+option java_package = "com.wali.knights.proto";
+option java_outer_classname = "BannerInfoProto";
+
+//bannner信息
+message BannerInfo {
+    required uint32 bannerId         = 1;
+    optional string icon             = 2; //icon
+    optional string actionUrl        = 3; //跳转地址
+    optional uint32 status           = 4; //banner的状态 1:有效 2:无效
+}

@@ -1,0 +1,38 @@
+package com.wali.knights.proto;
+
+option java_package = "com.wali.knights.proto";
+option java_outer_classname = "CollectProto";
+
+//收藏或者取消收藏请求
+message PushCollectReq {
+    optional uint64  uuid           = 1; //用户id
+    optional string  dataId         = 2; //收藏的数据id
+    optional uint32  dataType       = 3; //业务数据类型（1=玩后感，2=回复，3=视频，4=合辑，5=转发，6=开发者的话,7=游戏,8=漫画）
+    optional uint32  actionType     = 4; //操作类型  1收藏  2取消收藏
+}
+message PushCollectRsp {
+    required uint32 retCode         = 1; //返回码，0代表成功，非0值失败
+    optional string errMsg          = 2; //错误提示说明
+}
+
+//获取收藏列表
+message GetCollectListReq {
+    optional uint64  uuid           = 1; //用户id
+    optional uint32  page           = 2; //页号
+    optional uint32  pageSize       = 3; //每页记录数据
+    optional uint32  dataType       = 4; //业务数据类型（1=玩后感，2=回复，3=视频，4=合辑，5=转发，6=开发者的话,7=游戏,8=漫画）
+}
+message GetCollectListRsp {
+    required uint32 retCode         = 1; //返回码，0代表成功，非0值失败
+    optional string errMsg          = 2; //错误提示说明
+    optional uint32 totalRecordCnt  = 3; //总记录数
+    optional uint32 currPage        = 4; //当前页号
+    repeated Collect collect        = 5; //收藏数据
+}
+//返回给客户端的收藏数据信息
+message Collect {
+    optional string dataId          = 1; //收藏的数据id
+    optional uint32 dataType        = 2; //业务数据类型（1=玩后感，2=回复，3=视频，4=合辑，5=转发，6=开发者的话,7=游戏,8=漫画）
+    optional bytes collectData      = 3; //如果dataType是7，则是GameInfo
+    optional uint64 collectTime     = 4; //收藏的时间
+}

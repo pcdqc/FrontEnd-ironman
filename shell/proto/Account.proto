@@ -1,0 +1,147 @@
+syntax = "proto2";
+package com.wali.knights.proto;
+
+option java_package = "com.wali.knights.proto";
+option java_outer_classname = "AccountProto";
+
+//第三方授权登录
+//knights.account.login
+message LoginReq {
+    required uint32 accountType     = 1;//1表示微信账号登录 2表示QQ登录 3表示新浪微博登录 4表示小米账号登录
+    optional string code            = 2;//微信、小米账号登录，客户端拿到的oauth2.0的临时票据
+    optional string openId          = 3;//微博、qq登录客户端拿到的openid
+    optional string accessToken     = 4;//微博、qq登录客户端拿到的accessToken
+    optional string imei            = 5;//QQ和微信用户，需要带上客户端的imei号，用来判断是否有更换appid以前的uuid
+}
+
+message LoginRsp {
+    required uint32 retCode         = 1; //0:表示成功
+    optional uint64 uuid            = 2; //用户id
+    optional string serviceToken    = 3; //用于milink传输，有效期服务器控制
+    optional string securityKey     = 4; //用户milink数据加密
+    optional string passToken       = 5; //可以用来换取serviceToken
+    optional string nickname        = 6; //昵称
+    optional string headImgUrl      = 7; //头像地址
+    optional uint32 sex             = 8; //性别 0未知  1男性  2女性
+    optional uint32 loginStatus     = 9; //取值为1表示为第一次授权登录，是第一次则生成新账号并有第三方头像昵称等，否则返回老账号但不返回第三方头像昵称，客户端使用个人资料里的头像、昵称等
+    optional bool hasInnerAvatar    = 10;//是否有内部头像
+    optional bool hasInnerNickname  = 11;//是否有内部昵称
+    optional bool hasInnerSex       = 12;//是否有内部性别
+    optional string h5ServiceToken      = 13;//h5的token
+}
+
+//passtoken换servicetoken
+//cmd:knights.account.getservicetoken
+message GetServiceTokenReq {
+    required string passToken = 1; //客户端缓存的passToken
+    required uint64 uuid = 2; //骑士团用户id
+}
+
+message GetServiceTokenRsp {
+    required uint32 retCode = 1; //0:表示成功
+    optional string passToken = 2; //客户端更新最新拉取的passToken到本地缓存
+    optional string serviceToken = 3; //用于milink传输，有效期服务器控制
+    optional string securityKey = 4; //用户milink数据加密
+}
+
+
+//获取验证码
+//cmd:misdk.account.getcaptcha
+message GetCaptchaReq {
+    required string phoneNum = 1;//手机号
+    required uint32 type = 2;// 1: 注册验证码 2:找回密码验证码 3：更改密码验证码 4:绑定手机号验证码
+    optional string lang = 3;//下发短信的语言类型，lang的值可以为 en, zh-cn, zh-hant 之一，分别对应英文，中文简体，中文繁体。此参数为空，返回文案为简体中文格式
+}
+
+message GetCaptchaRsp {
+    required uint32 retCode = 1; //0:表示成功
+}
+
+//绑定手机号码
+//cmd:misdk.account.bindphone
+message BindPhoneReq {
+    required uint64 uuid = 1; //用户id
+    required string phoneNum = 2; //手机号
+    optional string captcha = 3; //验证码
+}
+
+message BindPhoneRsp {
+    required uint32 retCode = 1; //返回码
+    optional string errMsg = 2; //错误信息
+}
+
+//AccountInfo组成字段
+message AccountInfo
+{
+    required uint64 uid = 1;
+    required string openid = 2;
+    required uint32 account_type = 3;  //1表示微信登录 2表示QQ登录 3表示新浪微博登录 4表示小米账号登录
+    required uint64 create_ts = 4;//账号建立的时间，单位（秒）
+    optional bool is_new = 5[default = false];
+    optional string bind_phonenum = 6;
+    optional string newmiliao_id = 7;
+    optional string third_nickname = 8;
+    optional string xiaomi_openid = 9;
+}
+
+//获取帐号信息
+// misdk.account.getaccountinfo
+message GetAccountInfoReq {
+    required uint64 uuid = 1; //被查询的用户id
+}
+
+message GetAccountInfoRsp {
+    required uint32 retCode = 1; //0表示成功，3001表示没查到账号信息
+    optional AccountInfo accountInfo = 2; //账号信息
+}
+
+//扫码请求
+message ScanQrCodeReq
+{
+    required uint64 uuid    = 1;
+    required string qrCode  = 2;
+}
+
+message ScanQrCodeRsp
+{
+    required uint32 retCode = 1;
+    optional string errMsg  = 2;
+}
+
+//确认请求
+message ConfirmByQrCodeReq
+{
+    required uint64 uuid    = 1;
+    required string qrCode  = 2;
+}
+
+message ConfirmByQrCodeRsp
+{
+    required uint32 retCode = 1;
+    optional string errMsg  = 2;
+}
+
+
+//knights.account.missologin
+message MiSsoLoginReq {
+    required uint32 accountType     = 1; //1 小米账号类型
+    required uint64 mid             = 2; //小米账号ID
+    required string miServiceToken  = 3; // 小米账号servicetoken
+}
+
+message MiSsoLoginRsp {
+    required uint32 retCode             = 1; //0:表示成功
+    optional uint64 uuid                = 2; //动漫用户id
+    optional string serviceToken        = 3; //用于milink传输，有效期服务器控制
+    optional string securityKey         = 4; //用户milink数据加密
+    optional string passToken           = 5; //可以用来换取serviceToken
+    optional string nickname            = 6; //昵称
+    optional string headImgUrl          = 7; //头像地址
+    optional uint32 sex                 = 8; //性别 0未知  1男性  2女性
+    optional uint32 loginStatus         = 9; //1表示首次登陆
+    optional bool hasInnerAvatar        = 10;//是否有内部头像
+    optional bool hasInnerNickname      = 11;//是否有内部昵称
+    optional bool hasInnerSex           = 12;//是否有内部性别
+    optional string h5ServiceToken      = 13;//h5的token
+}
+

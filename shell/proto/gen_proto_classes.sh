@@ -1,0 +1,64 @@
+#!/bin/bash
+#rm -f ../main/java-gen/com/wali/knights/proto/*
+#genPath=../main/java-gen/
+rm -f ../../../app/src/main/java-gen/com/wali/knights/proto/*
+genPath=../../../app/src/main/java-gen/
+genPathChat=../../../app/src/main/chat-java-gen/
+protoc --java_out=$genPath ./Account.proto
+protoc --java_out=$genPath ./Comment.proto
+protoc --java_out=$genPath ./like.proto
+protoc --java_out=$genPath ./AuthUploadFile.proto
+protoc --java_out=$genPath ./Common.proto
+protoc --java_out=$genPath ./UserInfo.proto
+protoc --java_out=$genPath ./User.proto
+protoc --java_out=$genPath ./Relation.proto
+protoc --java_out=$genPath ./GameStat.proto
+protoc --java_out=$genPath ./GameInfo.proto
+protoc --java_out=$genPath ./Search.proto
+protoc --java_out=$genPath ./LikeMsg.proto
+protoc --java_out=$genPath ./ReplyMsg.proto
+protoc --java_out=$genPath ./SystemNotify.proto
+protoc --java_out=$genPath ./Push.proto
+protoc --java_out=$genPath ./Subscribe.proto
+
+protoc --java_out=$genPath ./ReplyInfo.proto
+protoc --java_out=$genPath ./Reply.proto
+protoc --java_out=$genPath ./ViewpointScoreCnt.proto
+protoc --java_out=$genPath ./ViewpointInfo.proto
+protoc --java_out=$genPath ./Viewpoint.proto
+protoc --java_out=$genPath ./Feeds.proto
+protoc --java_out=$genPath ./Collect.proto
+protoc --java_out=$genPath ./PubServerMsg.proto
+protoc --java_out=$genPath ./Honor.proto
+protoc --java_out=$genPath ./HonorInfo.proto
+protoc --java_out=$genPath ./gifts.proto
+protoc --java_out=$genPath ./ActivityInfo.proto
+protoc --java_out=$genPath ./Award.proto
+protoc --java_out=$genPath ./AwardInfo.proto
+protoc --java_out=$genPath ./WineHouseUserHistoryRank.proto
+protoc --java_out=$genPath ./WineHouseSimpleInfo.proto
+protoc --java_out=$genPath ./HistoryRank.proto
+protoc --java_out=$genPath ./WineHouse.proto
+protoc --java_out=$genPath ./VideoInfo.proto
+protoc --java_out=$genPath ./SimpleTopicInfo.proto
+protoc --java_out=$genPath ./ConquerHolyCupInfo.proto
+protoc --java_out=$genPath ./GameUserHolyCup.proto
+protoc --java_out=$genPath ./HolyCup.proto
+protoc --java_out=$genPath ./AtMsg.proto
+protoc --java_out=$genPath ./NewUserTaskInfo.proto
+protoc --java_out=$genPath ./TreasureItemInfo.proto
+protoc --java_out=$genPath ./TreasureBoxInfo.proto
+protoc --java_out=$genPath ./GoodsInfo.proto
+protoc --java_out=$genPath ./BannerInfo.proto
+protoc --java_out=$genPath ./FriendInvite.proto
+protoc --java_out=$genPath ./FeedsCount.proto
+protoc --java_out=$genPath ./FeedsTypeCount.proto
+protoc --java_out=$genPath ./Topic.proto
+protoc --java_out=$genPath ./PushKnightsMsg.proto
+protoc --java_out=$genPath ./UnreadMsgCounter.proto
+protoc --java_out=$genPath ./Channel.proto
+
+protoc --java_out=$genPathChat ./Game.proto
+protoc --java_out=$genPathChat ./H5GameC2S.proto
+protoc --java_out=$genPathChat ./Comic.proto
+protoc --java_out=$genPathChat ./H5GameC2S.prot

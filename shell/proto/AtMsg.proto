@@ -1,0 +1,20 @@
+syntax = "proto2";
+package com.wali.knights.proto;
+import "UserInfo.proto";
+option java_package = "com.wali.knights.proto";
+option java_outer_classname = "AtMsgProto";
+
+message AtMsg {
+    repeated AtMsgDetail atMsgDetail    = 1;//at详情
+}
+
+message AtMsgDetail {
+    optional string dataId              = 1;
+    optional UserInfo replyFrom         = 2;//内容发送方，产生回复的人
+    optional UserInfo replyTo           = 3;//内容接收方,被回复的人
+    optional string title               = 4;//标题，dataType=2时不存在
+    optional string content             = 5;//内容
+    optional uint32 dataType            = 6;//1=玩后感,2=回复,3=视频
+    optional uint32 replyDataType       = 7;//被回复的对象类型，1=玩后感,2=回复,3=视频
+    optional uint32 seq                 = 8;//序号，dataType=2时存在
+}

@@ -1,0 +1,11 @@
+syntax = "proto2";
+package com.wali.knights.proto;
+
+option java_package = "com.wali.knights.proto";
+option java_outer_classname = "WineHouseSimpleInfoProto";
+
+//活动简要信息
+message WineHouseSimpleInfo {
+    optional uint32 actId                           = 1;//活动Id
+    optional string name                            = 2;//活动名称
+}

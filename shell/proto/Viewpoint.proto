@@ -1,0 +1,188 @@
+syntax = "proto2";
+package com.wali.knights.proto;
+
+import "ViewpointInfo.proto";
+import "VideoInfo.proto";
+import "Relation.proto";
+import "SimpleTopicInfo.proto";
+import "ConquerHolyCupInfo.proto";
+import "GameUserHolyCup.proto";
+import "WineHouseSimpleInfo.proto";
+import "FeedsCount.proto";
+
+option java_package = "com.wali.knights.proto";
+option java_outer_classname = "ViewpointProto";
+
+//命令字：knights.viewpoint.publishViewpoint
+//发表观点接口
+message PublishViewpointReq {
+    optional uint64 uuid                = 1; //用户ID
+    optional uint64 gameId              = 2; //游戏ID
+    optional string title               = 3; //标题
+    optional string content             = 4; //内容
+    optional uint32 score               = 5; //评分，范围[1-5]
+    optional uint32 dataType            = 6[default = 1]; //数据类型 1=玩后感，3=视频，8=活动评论，9=开发者说（文字）12 评测
+    optional uint32 actId               = 7; //活动ID
+    optional VideoInfo videoInfo        = 8; //视频详情
+    optional uint32 topicId             = 9;//话题ID
+    repeated uint64 atUuid              = 10;//被AT的用户id列表
+    optional MixedContent mixedContent  = 11; //混排内容
+    optional uint32 owner               = 12;//所属人 1 普通用户 2 开发者
+    optional uint64 versionCode         = 13; //游戏对应版本号
+    optional uint32 gameStaus           = 14; //评价是游戏状态  1=游戏预约  2=游戏内测阶段  3=正式上线
+    optional uint32 playDuration        = 15; // 玩游戏时长，精确到秒
+}
+message PublishViewpointRsp {
+    required uint32 retCode             = 1; //返回码，0代表成功，非0值失败
+    optional string errMsg              = 2; //错误提示说明
+    optional string viewpointId         = 3; //观点ID
+}
+
+//命令字：knights.viewpoint.getViewpointInfo
+//获取观点详情接口
+message GetViewpointInfoReq {
+    optional uint64 uuid                = 1; //用户ID
+    optional string viewpointId         = 2; //观点ID
+    optional bool needGameInfo          = 3[default = false]; //是否需要拉取游戏详情
+}
+message GetViewpointInfoRsp {
+    required uint32 retCode             = 1; //返回码，0代表成功，非0值失败
+    optional string errMsg              = 2; //错误提示说明
+    optional ViewpointInfo viewpoint    = 3;
+    optional Relation relation          = 4; //用户之间是否关注
+}
+
+//命令字：knights.viewpoint.getViewpointList
+//拉取观点列表接口
+message GetViewpointListReq {
+    optional uint64 uuid                = 1; //用户ID
+    optional uint64 gameId              = 2; //游戏ID
+    optional uint32 score               = 3; //评分，范围[1-5]
+    optional uint32 sortType            = 4; //排序方式 1=按更新时间 2=按点赞 3=创建时间
+    optional uint32 page                = 5; //页号
+    optional uint32 pageSize            = 6; //每页记录数据
+    optional uint32 listType            = 7[default = 1]; //列表类型 1=游戏观点列表 2=我的观点列表 3=活动观点列表
+    optional bool needTopReply          = 8[default = false]; //是否需要下发回复top n
+    optional uint32 dataType            = 9[default = 1]; //数据类型 1=玩后感，3=视频，8=活动评论，9=开发者说（文字） 12 评测
+    optional uint32 actId               = 10; //活动ID
+    optional bool needActivityInfo      = 11; //是否需要活动的详细信息
+    optional uint32 topicId             = 12; //话题ID
+    repeated uint32 dataTypeList        = 13;//数据类型列表，如果dataType字段存在将忽略该字段
+    optional uint32 owner               = 14;//所属人 1 普通用户 2 开发者
+    repeated uint32 scoreList           = 15;//评分列表
+}
+
+message GetViewpointListRsp {
+    required uint32 retCode             = 1; //返回码，0代表成功，非0值失败
+    optional string errMsg              = 2; //错误提示说明
+    optional uint32 totalRecordCnt      = 3; //总记录数，仅第一页返回此数据
+    optional uint32 currPage            = 4; //当前页号
+    repeated ViewpointInfo viewpoints   = 5; //观点数据
+}
+
+//命令字：knights.viewpoint.getScoreCountV2
+//获取观点评级计数接口
+message GetScoreCountV2Req {
+    optional uint64 uuid                = 1; //用户ID
+    optional uint64 gameId              = 2; //游戏ID
+    optional uint32 dataType            = 3; //数据类型 1 玩后感 12 评测
+}
+message GetScoreCountV2Rsp {
+    required uint32 retCode                         = 1; //返回码，0代表成功，非0值失败
+    optional string errMsg                          = 2; //错误提示说明
+    repeated ScoreCount scoreCount                  = 3;
+}
+
+//命令字：knights.viewpoint.getGameIntroInfo
+//获取简介详情接口
+message GetGameIntroInfoReq {
+    optional uint64 uuid                = 1; //用户ID
+    optional string introId             = 2; //简介ID
+    optional bool needGameInfo          = 3[default = false]; //是否需要拉取游戏详情
+}
+message GetGameIntroInfoRsp {
+    required uint32 retCode             = 1; //返回码，0代表成功，非0值失败
+    optional string errMsg              = 2; //错误提示说明
+    optional GameIntroInfo gameIntro    = 3;
+}
+
+message AddViewCountReq {
+    optional uint64 uuid                = 1; //用户ID
+    optional string dataId              = 2; //游戏视频ID或文章ID，确保不会重复
+}
+message AddViewCountRsp {
+    required uint32 retCode             = 1; //返回码，0代表成功，非0值失败
+    optional string errMsg              = 2; //错误提示说明
+}
+
+//命令字：knights.viewpoint.getGameColligateInfo
+//详情2.0的侧边栏，游戏综合信息
+message GetGameColligateInfoReq {
+    required uint64 gameId                      = 1;//游戏id
+    optional uint64 uuid                        = 2;//用户id
+    repeated uint32 attr                        = 3;//数据类型 1=玩后感，3=视频，8=活动评论
+    optional uint32 owner                       = 4;//类型：1 普通用户（普通用户的话题开发者可以看到） 2 开发者专用（包含普通用户的话题）
+}
+
+message GetGameColligateInfoRsp {
+    required uint32 retCode                     = 1;
+    optional string errMsg                      = 2;
+    repeated GameUserHolyCup gameUserGetHolyCup = 3; //某个游戏下用户获取圣杯列表
+    optional uint64 newestFeedTimestamp         = 4; //该游戏最新动态的时间戳
+    repeated SimpleTopicInfo topic              = 5; //该游戏含有的话题列表
+    optional ConquerHolyCupInfo conquerCupInfo  = 6; //第一征服者
+    repeated WineHouseSimpleInfo simpileInfos   = 7; //抖M活动列表
+}
+
+//命令字：knights.viewpoint.getTopicList
+//获取游戏对应的话题列表
+message GetTopicListc2sReq {
+    optional uint64 gameId                          = 1;//游戏Id
+    repeated uint32 attr                            = 2;//属性：1 视频 2 玩后感 3 视频和玩后感
+    optional uint32 owner                           = 3;//类型：1 普通用户（普通用户的话题开发者可以看到） 2 开发者专用（普通用户看不到）
+}
+message GetTopicListc2sRsp {
+    required uint32 retCode                         = 1; //返回码，0代表成功，非0值失败
+    optional string errMsg                          = 2; //错误提示说明
+    repeated SimpleTopicInfo simpleTopicInfo      = 3;//该游戏对应的话题列表
+}
+
+//获取置顶观点接口
+message GetTopViewpointInfoReq {
+    required uint64 gameId                 = 1;//游戏Id
+}
+message GetTopViewpointInfoRsp {
+    required uint32 retCode                = 1; //返回码，0代表成功，非0值失败
+    optional string errMsg                 = 2; //错误提示说明
+    repeated ViewpointInfo viewpointInfo   = 3; //观点数据
+}
+
+
+message GetRecommendVpListReq {
+    optional uint64 uuid                = 1; //用户ID
+    optional uint32 pageSize            = 2; //每次拉取的数据
+    optional uint32 page                = 3; //当前第几页
+    optional string imeiMd5             = 4;
+}
+message GetRecommendVpListRsp {
+    required uint32 retCode                     = 1; //返回码，0代表成功，非0值失败
+    optional string errMsg                      = 2; //错误提示说明
+    repeated RecommendVpInfo recommendVpInfo    = 3; //推荐观点信息
+    optional bool  hasMore                      = 4; //是否有更多数据
+}
+message RecommendVpInfo{
+    optional ViewpointInfo viewpointInfo = 1; //观点信息
+    optional Relation relation           = 2; //用户之间是否关注
+    optional string traceId              = 3; //内容推荐返回的traceId
+}
+
+//查询动态计数
+message MultiGetFeedsCntReq {
+    optional uint32 dataType            = 1; //1=用户 2=游戏 3=话题
+    repeated string dataId              = 2; //数据对象ID，用户ID、游戏ID、话题ID
+}
+message MultiGetFeedsCntRsp {
+    required uint32 retCode             = 1; //返回码，0代表成功，非0值失败
+    optional string errMsg              = 2; //错误提示说明
+    repeated FeedsCount feedsCount      = 3; //动态计数
+}

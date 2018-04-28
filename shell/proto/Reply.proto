@@ -1,0 +1,57 @@
+syntax = "proto2";
+package com.wali.knights.proto;
+
+import "ReplyInfo.proto";
+
+option java_package = "com.wali.knights.proto";
+option java_outer_classname = "ReplyProto";
+
+
+//命令字：knights.reply.publishReply
+//发表回复接口
+message PublishReplyReq {
+    optional uint64 fromUuid        = 1; //发回复用户ID
+    optional uint64 toUuid          = 2; //被回复用户ID
+    optional string dataId            = 3; //被回复对象ID
+    optional uint32 dataType        = 4; //回复对象类型 1=评论 2=回复
+    optional string content         = 5; //回复内容
+    repeated uint64 atUuid          = 6; //被@的用户id列表
+    optional uint64 gameId          = 7; //游戏ID
+}
+message PublishReplyRsp {
+    required uint32 retCode         = 1; //返回码，0代表成功，非0值失败
+    optional string errMsg          = 2; //错误提示说明
+    optional string replyId         = 3; //回复ID
+}
+
+//命令字：knights.reply.getReplyInfo
+//获取回复详情接口
+message GetReplyInfoReq {
+    optional uint64 uuid            = 1; //用户ID
+    optional string replyId         = 2; //回复ID
+}
+message GetReplyInfoRsp {
+    required uint32 retCode         = 1; //返回码，0代表成功，非0值失败
+    optional string errMsg          = 2; //错误提示说明
+    optional ReplyInfo reply        = 3; //回复数据详情
+}
+
+//命令字：knights.reply.getReplyList
+//拉取回复列表接口
+message GetReplyListReq {
+    optional uint64 uuid            = 1; //用户ID
+    optional string dataId          = 2; //被回复对象ID
+    optional uint32 dataType        = 3; //回复对象类型 1=评论 2=回复
+    optional uint32 pullType        = 4; //翻页方式 1=拉后面的数据 2=拉前面的数据 3=拉取指定回复的前后两页数据
+    optional uint32 seq             = 5; //回复编号，下发数据包含该编号，pullType=1拉大于seq的数据，pullType=2拉小于seq的数据
+    optional uint32 pageSize        = 6; //每页记录数据
+    optional string replyId         = 7; //回复ID，pullType=3 时该字段不能为空
+    optional bool needTotalCnt      = 8; // 是否需要记录总数
+}
+message GetReplyListRsp {
+    required uint32 retCode         = 1; // 返回码，0代表成功，非0值失败
+    optional string errMsg          = 2; // 错误提示说明
+    optional uint32 totalRecordCnt  = 3; // 总记录数
+    repeated ReplyInfo replys       = 4; // 回复数据
+    optional bool hasMore           = 5; // 是否有下一页数据
+}

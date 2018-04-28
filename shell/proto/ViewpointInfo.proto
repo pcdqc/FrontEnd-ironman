@@ -1,0 +1,122 @@
+syntax = "proto2";
+package com.wali.knights.proto;
+
+import "UserInfo.proto";
+import "like.proto";
+import "GameInfo.proto";
+import "ReplyInfo.proto";
+import "ActivityInfo.proto";
+import "VideoInfo.proto";
+import "SimpleTopicInfo.proto";
+import "Relation.proto";
+
+option java_package = "com.wali.knights.proto";
+option java_outer_classname = "ViewpointInfoProto";
+
+message ViewpointInfo {
+    optional string viewpointId         = 1; //观点ID
+    optional uint64 gameId              = 2; //游戏ID
+    optional UserInfo userInfo          = 3; //用户信息
+    optional string title               = 4; //标题
+    optional string content             = 5; //观点
+    optional uint32 score               = 6; //评分 S=5,A=4,B=3,C=2,D=1
+    optional uint32 playDuration        = 7; //玩游戏时长
+    optional uint32 likeCnt             = 8; //赞数
+    optional uint32 replyCnt            = 9; //回复条数
+    optional uint64 updateTime          = 10; //最后更新时间，记录最后回复时间
+    optional uint64 createTime          = 11; //发布时间
+    optional uint32 status              = 12; //状态
+    optional LikeInfo likeInfo          = 13; //赞关系
+    optional GameInfo gameInfo          = 14; //游戏详情，只有按用户拉取时才下发
+    repeated ReplyInfo topReplys        = 15; //回复的 top n
+    optional uint32 dataType            = 16; //数据类型 1=玩后感，8=活动评论
+    optional ActivityInfo actInfo       = 17; //活动详情
+    optional VideoInfo videoInfo        = 18; //视频详情
+    repeated SimpleTopicInfo topicInfo  = 19; //话题详情
+    optional bool firstPost             = 20;//第一篇帖子，目前仅限于玩后感和视频和评测
+    optional MixedContent mixedContent  = 21; //内容混排
+    optional uint32 reason              = 22;//屏蔽理由
+    optional uint32 owner               = 23;//所属人 1 普通用户 2 开发者
+    optional uint32 hot                 = 24; //热度值
+    optional SummaryInfo summaryInfo    = 25; //摘要信息
+    optional uint32 viewCount           = 26; //浏览计数
+    repeated TagInfo tagInfos           = 27; //tagInfo 标签信息，频道首页及二级页接口目前只下发第一个标签内容
+    optional string bannerUrl           = 28; //banner信息
+    optional string deviceModel         = 29; //设备类型
+    optional string deviceShowIcon      = 30; //设备图标
+    optional RelationCounter relationCounter   = 31; //用户粉丝和关注数
+    optional bool isEditRecommend       = 32; //编辑推荐
+}
+
+message TagInfo
+{
+    optional uint32 tagId                       = 1;
+    optional string tagName                     = 2;
+}
+
+message GameIntroInfo {
+    optional string introId             = 1; //简介ID
+    optional uint64 gameId              = 2; //游戏ID
+    optional UserInfo userInfo          = 3; //用户信息
+    optional string content             = 4; //简介内容
+    optional uint32 likeCnt             = 5; //赞数
+    optional uint32 replyCnt            = 6; //回复条数
+    optional uint64 updateTime          = 7; //最后更新时间，记录最后回复时间
+    optional uint64 createTime          = 8; //发布时间
+    optional uint32 status              = 9; //状态
+    optional LikeInfo likeInfo          = 10; //赞关系
+    optional GameInfo gameInfo          = 11; //游戏详情，只有按用户拉取时才下发
+}
+
+
+message SummaryInfo{
+    required string dataId          = 1;
+    optional string summary         = 2; //类型为1（玩后感）或者8（活动评论）时，取该字段作为摘要内容
+    optional VideoInfo videoInfo    = 3; //类型为4（视频类型），该字段为冗余存储字段，方便逻辑操作
+    optional MixedContent content   = 4; //类型为9（讨论）、12（评测）或者13（攻略）时，取该字段作为摘要内容
+    optional uint32 wordsCnt        = 5; //总字数
+    optional uint32 picsCnt         = 6; //图片总数
+}
+
+//*********************** 混排内容 ******************************
+message MixedContent {
+    repeated Horizontal horizontal      = 1;
+}
+
+//模版类型
+enum TemplateType {
+    SIMPLE = 1; //简单模式
+}
+
+//横向
+message Horizontal {
+    optional uint32 positionIndex           = 1; //竖向排列位置索引，从0开始
+    repeated VerticalInRow verticalInRow    = 2;
+    optional uint32 templateType            = 3; //模版类型，参见 TemplateType
+}
+//内容类型定义
+enum ContentType {
+    TEXT    = 1; //文本
+    PIC     = 2; //图片
+    VIDEO   = 3; //视频
+}
+//横向中的竖向内容
+message VerticalInRow {
+    required uint32 contentType         = 1; //内容类型，参见 contentType
+    optional uint32 positionIndex       = 2; //横向排列位置索引，从0开始
+    optional string content             = 3; //内容，文本时为文字，图片时为图片链接
+    optional VideoInfo videoInfo        = 4; //类型为视频时的视频信息
+}
+
+//观点评级计数
+//key:观点评级计数key规则，knvp_vpscore_cnt_${gameId}_${dataType}
+message VpScoreCnt {
+    optional uint64 gameId                  = 1; //游戏ID
+    optional uint32 dataType                = 2; //观点类型
+    repeated ScoreCount scoreCount          = 3;
+}
+message ScoreCount {
+    optional uint32 score                   = 1;
+    optional uint32 count                   = 2;
+}
+

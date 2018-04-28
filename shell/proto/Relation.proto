@@ -1,0 +1,132 @@
+syntax = "proto2";
+package com.wali.knights.proto;
+import "GameInfo.proto";
+import "HonorInfo.proto";
+option java_package = "com.wali.knights.proto";
+option java_outer_classname = "RelationProto";
+
+
+
+//粉丝列表 mlist-item
+message Follower
+{
+    optional uint64 createTime  = 1; //关注时间
+    optional bool pushable      = 2; //是否允许推送
+}
+
+//关注 kv
+message Following
+{
+    optional uint64 targetId        = 1; //被关注者userId
+    optional uint64 createTime      = 2; //关注时间
+    optional bool pushable          = 3; //是否允许推送
+    optional bool isBothway         = 4; //是否双向关注
+}
+
+//关注列表
+message FollowingList
+{
+    repeated Following followings   = 1; //关注列表
+    optional uint64 updateTs        = 2; //更新时间
+}
+
+//关注列表或者粉丝列表返回给客户端的用户信息
+message RelationUserInfo
+{
+    required uint64 uuid                            = 1;
+    optional uint64 avatar                          = 2; //头像
+    optional string nickname                        = 3; //昵称
+    optional uint32 sex                             = 4; //性别
+    optional string signature                       = 5; //个人签名
+    optional bool isPushable                        = 6; //是否可推送，在查看自己的关注列表时返回
+    optional bool isFollowing                       = 7; //是否关注
+    optional bool isBothWay                         = 8; //是否双向关注
+    repeated GameInfo gameInfos                     = 9; //最近玩的游戏，如果有则暂时返回最新玩的游戏
+    optional string certType                        = 10; //认证类型 现有的认证类型见zk配置：http://zkview.d.xiaomi.net/clusters/c3/nodes?path=%2Fhuyu%2Fknights/user
+    optional string certName                        = 11; //认证名称
+    optional string remark                          = 12; //认证备注，认证用户可能带有该字段，非认证用户没有
+    optional WoreHonorInfo woreHonorInfo            = 13; //佩戴的荣誉勋章
+    optional uint32 userStatus                      = 14; //用户状态，0：不在线、1：在线、2：游戏中
+    optional string statusDesc                      = 15; //状态描述，如：正在玩消消乐游戏
+}
+
+//关注请求
+message FollowReq
+{
+    required uint64 uuid        = 1; //uuid
+    required uint64 targetId    = 2; //被关注的uuid
+}
+message FollowRsp
+{
+    required uint32 retCode     = 1; //状态码
+    optional bool isBothway     = 2; //是否双向关注
+}
+
+//取消关注
+message UnFollowReq
+{
+    required uint64 uuid        = 1; //uuid
+    required uint64 targetId    = 2; //被取消关注的目标id
+}
+message UnFollowRsp
+{
+    required uint32 retCode     = 1; //状态码
+}
+
+//查询关注列表
+message GetFollowingListReq
+{
+    required uint64 uuid        = 1;
+    optional uint32 offset      = 2; //偏移量,默认0
+    optional uint32 limit       = 3; //拉取数量,默认100
+}
+message GetFollowingListRsp
+{
+    required uint32 retCode             = 1; //状态码
+    repeated RelationUserInfo infos     = 2; //关注列表
+    optional bool hasMore               = 3; //后面是否还有数据
+}
+
+//查询粉丝列表
+message GetFollowerListReq
+{
+    required uint64 uuid        = 1;
+    optional uint32 offset      = 2; //偏移量,默认0
+    optional uint32 limit       = 3; //拉取数量,默认100
+}
+message GetFollowerListRsp
+{
+    required uint32 retCode                 = 1; //状态码
+    repeated RelationUserInfo infos         = 2; //粉丝列表
+    optional bool hasMore                   = 3; //后面是否还有数据
+}
+
+message RelationCounter
+{
+    optional uint32 followingSize   = 1; //关注数
+    optional uint32 followerSize    = 2; //粉丝数
+    optional uint64 uuid            = 3; //uuid
+}
+
+//两个人的关系pb
+message Relation
+{
+    required uint64 uuid            = 1;
+    optional uint64 targetUid       = 2;
+    optional bool isFollowing       = 3; //是否关注
+    optional bool isBothFollowing   = 4; //是否双向关注
+}
+
+
+message GetBothFollowerListReq
+{
+   required uint64 uuid        = 1;
+   optional uint32 offset      = 2; //偏移量,默认0
+   optional uint32 limit       = 3; //拉取数量,默认100
+}
+message GetBothFollowListRsp
+{
+    required uint32 retCode                 = 1; //状态码
+    repeated RelationUserInfo infos         = 2; //双向关注列表
+    optional bool hasMore                   = 3; //后面是否还有数据
+}

@@ -1,0 +1,148 @@
+syntax = "proto2";
+package com.wali.knights.proto;
+import "GameInfo.proto";
+import "HonorInfo.proto";
+option java_package = "com.wali.knights.proto";
+option java_outer_classname = "SearchProto";
+
+message SearchUserInfo {
+    required uint64 uuid = 1;
+    optional uint64 avatar = 2;
+    optional string nickname = 3;
+    optional uint32 gender = 4;
+    optional string signature = 5;
+    optional uint32 followers = 6;
+    optional uint32 relation = 7; //关系 0表示未关注 1表示已关注 2表示双向关注  匿名登录时，不返回该字段
+    optional uint32 gameCounter = 8; //游戏数
+    optional uint32 viewPointCounter = 9; //观点数
+    optional string certType = 10; //认证类型 现有的认证类型见zk配置：http://zkview.d.xiaomi.net/clusters/c3/nodes?path=%2Fhuyu%2Fknights/user
+    optional string certName = 11; //认证名称
+    optional string remark = 12; //认证备注，认证用户可能带有该字段，非认证用户没有
+    optional WoreHonorInfo woreHonorInfo = 13; //佩戴的荣誉勋章
+}
+
+message SearchGameInfo
+{
+    required uint64 gameId            = 1;
+    optional GameInfo gameInfo        = 2;
+    optional double socre             = 3; //游戏评分
+}
+
+//knights.search.user
+
+message SearchUserReq
+{
+    required string keyWords    = 1;
+    optional uint32 offset      = 2;
+    optional uint32 count       = 3;
+}
+
+message SearchUserRsp
+{
+    required uint32 retCode                 = 1;
+    repeated SearchUserInfo searchUserInfos = 2;
+}
+
+
+//knights.search.game
+message SearchGameReq
+{
+    required string keyWords    = 1;
+    optional uint32 offset      = 2;
+    optional uint32 count       = 3;
+}
+
+message SearchGameRsp
+{
+    required uint32 retCode                 = 1;
+    repeated SearchGameInfo searchGameInfos = 2;
+    optional SearchGameExtraInfo info       = 3;
+}
+
+message SearchGameExtraInfo
+{
+    optional string title       = 1; //目前客户端写死了，服务器先不下发该字段
+    repeated TagInfo tagInfo    = 2; //modify
+    optional string downloadRate  = 3; //下载率   modify
+}
+
+message TagInfo
+{
+    optional uint32 tagId       = 1; //tagId
+    optional uint32 level       = 2; //1表示一级标签，2表示二级标签
+    optional string tagName     = 3; //标签名
+    optional uint32 subId       = 4; //标签子id
+    optional string actionUrl   = 5; //跳转地址
+}
+
+
+//knights.search.recommenduser
+message SearchRecommendUserReq
+{
+    required string keyWords    = 1;
+    optional uint32 count       = 2;
+}
+
+message SearchRecommendUserRsp
+{
+    required uint32 retCode         = 1;
+    repeated string nicknames       = 2;
+}
+
+//knights.search.recommendgame
+message SearchRecommendGameReq
+{
+    required string keyWords    = 1;
+    required uint32 count       = 2;   //modify
+    required uint32 rCount      = 3; //推荐数量  modify
+}
+
+message SearchRecommendGameRsp
+{
+    required uint32 retCode         = 1;
+    repeated string gameNames       = 2;
+    repeated RecommendGameInfo rGameInfos    = 3; //搜索词推荐  modify
+}
+
+//modify
+message RecommendGameInfo
+{
+    required uint64 gameId                              = 1;
+    optional GameInfo gameInfo                          = 2;
+    optional double socre                               = 3; //游戏评分
+}
+
+message DeveloperInfo
+{
+    optional uint32 devId           = 1; // 厂商ID
+    optional string devName         = 2; // 厂商名
+    optional string icon            = 3; //
+}
+
+//knights.search.developer
+message SearchDeveloperReq
+{
+    required string keyWords    = 1;
+    optional uint32 offset      = 2;
+    optional uint32 count       = 3;
+}
+
+message SearchDeveloperRsp
+{
+    required uint32 retCode       = 1;
+    optional string errMsg        = 2;
+    repeated DeveloperInfo infos  = 3;
+}
+
+//knights.search.recommenddeveloper
+message SearchRecommendDeveloperReq
+{
+    required string keyWords    = 1;
+    optional uint32 count       = 2;
+}
+
+message SearchRecommendDeveloperRsp
+{
+    required uint32 retCode         = 1;
+    repeated string devNames        = 2;
+}

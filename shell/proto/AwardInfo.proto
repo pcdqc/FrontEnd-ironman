@@ -1,0 +1,13 @@
+syntax = "proto2";
+package com.wali.knights.proto;
+
+import "Award.proto";
+
+option java_package = "com.wali.knights.proto";
+option java_outer_classname = "AwardInfoProto";
+
+//奖品
+message AwardInfo {
+    optional uint32 level                           = 1; //等级 1=冠军，2=亚军，3=季军，4=（4-10）上榜，5=阳光普照奖
+    repeated Award award                            = 2; //具体的奖品
+}

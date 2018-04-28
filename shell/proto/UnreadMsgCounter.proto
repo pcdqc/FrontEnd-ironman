@@ -1,0 +1,15 @@
+syntax = "proto2";
+package com.wali.knights.proto;
+
+option java_package = "com.wali.knights.proto";
+option java_outer_classname = "UnreadMsgCounterProto";
+
+message UnreadMsgCounter
+{
+    required uint64 uuid    = 1;
+    optional uint32 relation= 2;
+    optional uint32 like    = 3;
+    optional uint32 reply   = 4;
+    optional uint32 system  = 5;
+    optional uint32 at      = 6;
+}

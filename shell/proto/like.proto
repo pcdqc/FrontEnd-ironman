@@ -1,0 +1,43 @@
+syntax = "proto2";
+package com.wali.knights.proto;
+
+option java_package = "com.wali.knights.proto";
+option java_outer_classname = "LikeProto";
+
+//赞记录
+//key: comment_${commnetId}_${uuid}
+//     reply_${replyId}_${uuid}
+message LikeInfo {
+    optional string dataId              = 1; // 赞对象ID
+    optional uint32 dataType            = 2; // 赞对象类型 0=评论,1=回复
+    optional uint32 likeType            = 3; // 赞类型 0=取消赞,1=赞（暂时只有1，取消赞时删除key）
+}
+
+//命令字：knights.like.add
+//点赞请求
+message CommentLikeReq {
+    required uint64 uuid            = 1; // 用户ID
+    optional string dataId          = 2; // 赞对象ID
+    optional uint32 dataType        = 3; // 赞对象类型 0=评论,1=回复
+    optional uint32 likeType        = 4; // 赞类型 0=取消赞,1=赞
+}
+//点赞返回结果
+message CommentLikeRsp {
+    optional uint32 retCode         = 1; // 返回码，0代表成功，非0值失败
+    optional string errMsg          = 2; // 错误提示说明
+}
+
+
+//投票请求
+message VoteReq
+{
+    required uint64 uuid    = 1; //用户id
+    optional string dataId  = 2; //dataId
+    optional uint32 actId   = 3; //活动id
+}
+
+message VoteRsp
+{
+    required uint32 retCode = 1;
+    optional string errMsg  = 2;
+}

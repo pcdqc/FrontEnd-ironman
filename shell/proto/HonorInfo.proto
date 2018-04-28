@@ -1,0 +1,28 @@
+package com.wali.knights.proto;
+
+option java_package = "com.wali.knights.proto";
+option java_outer_classname = "HonorInfoProto";
+
+//荣誉信息
+message HonorInfo
+{
+    optional uint32 id                  = 1; //荣誉ID
+    optional uint32 type                = 2; //荣誉类型，1=史诗勋章，2=荣誉之证
+    optional string name                = 3; //荣誉名称
+    optional bool canUse                = 4; //是否启用
+    optional bool canActive             = 5; //是否激活
+    optional string bigPicUrl           = 6; //大图地址
+    optional string smallPicUrl         = 7; //小图地址
+    optional uint32 ownerCnt            = 8; //拥有该荣誉的用户人数
+    optional string descrption          = 9; //荣誉的描述信息
+    optional string rule                = 10; //荣誉的获取规则
+    optional string noActivePicUrl      = 11; //未点亮的图片
+}
+
+//佩戴的荣誉勋章
+message WoreHonorInfo
+{
+    required uint32 id                  = 1;
+    optional uint64 gainTime            = 2; //获取的时间
+    optional HonorInfo info             = 3; //荣誉详情
+}

@@ -1,0 +1,120 @@
+syntax = "proto2";
+package com.wali.knights.proto;
+
+import "ViewpointInfo.proto";
+import "Relation.proto";
+
+option java_package = "com.wali.knights.proto";
+option java_outer_classname = "ChannelProto";
+
+
+//拉取频道的内容列表
+message GetChannelListReq
+{
+    optional uint64 uuid       = 1;   //用户id，保留字段，匿名登录可填0，为了以后做个性化推荐使用
+    optional string imei       = 2;   //imei md5值
+    optional uint32 channelId  = 3;   //频道id，1:视频首页
+}
+
+message GetChannelListRsp
+{
+    optional uint32          retCode = 1;
+    optional ChannelContent  content = 2; //频道内的内容列表
+}
+
+
+//拉取频道二级页内容列表
+message GetSubChannelListReq
+{
+    optional uint64 uuid            = 1;
+    optional string imei            = 2;
+    optional uint32 channelId       = 3;
+    optional uint32 sectionType     = 4; //sectionType，1表示普通分区（尝鲜专区等）；2表示每日精选；3表示话题；4表示更多话题
+    optional uint32 sectionId       = 5; //sectionType为1和2时，时需要填写sectionId
+    optional uint32 offset          = 6; //每日精选和尝鲜专区每次下发20条数据，更多话题下发4个话题的数据（每个话题包含按热度排序的前4个视频）
+    optional uint32 limit           = 7;
+}
+
+message GetSubChannelListRsp
+{
+    optional uint32 retCode         = 1;
+    optional ChannelContent content = 2; //频道内的内容列表
+    optional bool hasMore           = 3;
+}
+message ChannelContent
+{
+    optional uint32 channelId       = 1;  //频道id
+    repeated RowItemDetail details  = 2;  //频道内容列表
+}
+
+message RowItemDetail
+{
+    optional uint32 sectionType      = 1; //section类型，1表示普通分区；2表示每日精选；3表示话题；4表示更多话题
+    optional uint32 sectionId        = 2;
+    optional uint32 rowType          = 3; //行数据类型，100数据项，101分栏header，105表示banner
+    optional uint32 rowTpType        = 4; //行模板类型 具体定义地址:http://wiki.n.miui.com/pages/viewpage.action?pageId=65469938
+    optional bytes  data             = 5; //行模版序列化后的数据,一行可能包含多个视频内容
+}
+
+message TemplateSectionHeader
+{
+    optional SectionHeaderData data  = 1;
+}
+message SectionHeaderData
+{
+    optional string title       = 1;
+    optional string extra       = 2; //其他说明信息，例如每日精选后面的No.039等期数
+    optional string actionUrl   = 3;
+    optional uint32 topicId     = 4; //sectionType=2且rowType为101时，该字段为特定话题id
+}
+
+message TemplateVideo
+{
+    repeated VideoData datas = 1;
+}
+
+message VideoData
+{
+   optional ViewpointInfo viewpointInfo  = 1;
+   optional RichTextInfo richTextInfo    = 2; //携带富文本信息
+   optional ExtraInfo extraInfo          = 3; //期刊数，每日精选二级页需要关注该字段
+   optional HeaderInfo headerInfo        = 4; //sectionType=8时，该字段为特定话题信息
+   optional string recommendTraceId      = 5; //数据为推荐时的透传trace_id
+   optional Relation relation            = 6; //用户之间是否关注
+}
+
+message ExtraInfo
+{
+    optional string period              = 1; //期刊数，每日精选二级页需要关注该字段
+    optional uint64 pubTime             = 2; //期刊发布时间，客户端需要根据该字段来解析每日精选二级页的title
+}
+
+message RichTextInfo
+{
+    optional string text            = 1; //视频封面文字，比如编辑推荐等
+    optional string backGround      = 2; //背景图
+    optional string iconUrl         = 3; //图标地址，优先使用iconUrl，如果没有则使用text和backGround组合
+    optional string jumpUrl         = 4; //跳转地址
+    optional string recommendWords  = 5; //推荐语
+}
+
+message HeaderInfo
+{
+    optional string title       = 1;
+    optional string actionUrl   = 2;
+    optional uint32 topicId     = 3; //sectionType=8时，该字段为特定话题ID
+    optional uint32 videoNum    = 4; //sectionType=8时，该字段为特定话题下视频数
+}
+
+message TemplateBanner
+{
+    repeated BannerData    bannerData = 1;
+}
+message BannerData
+{
+    optional uint32 bannerId    = 1;
+    optional string imgUrl      = 2; //banner图片地址
+    optional string actionUrl   = 3; //banner点击跳转地址，例如点击更多精彩话题
+    optional string recommendWords   = 4; //banner推荐语
+    optional VideoData videoData     = 5; //视频数据
+}

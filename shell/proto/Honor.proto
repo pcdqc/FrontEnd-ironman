@@ -1,0 +1,283 @@
+package com.wali.knights.proto;
+import "UserInfo.proto";
+import "GameInfo.proto";
+import "HonorInfo.proto";
+import "ActivityInfo.proto";
+
+import "HolyCup.proto";
+
+option java_package = "com.wali.knights.proto";
+option java_outer_classname = "HonorProto";
+
+
+//命令字(佩戴荣誉勋章)：knights.honor.wearHonor
+message WearHonorReq {
+    optional uint64 uuid                = 1; //用户ID
+    optional uint32 honorId             = 2; //勋章ID
+}
+
+message WearHonorRsp {
+    required uint32 retCode             = 1; //返回码，0代表成功，非0值失败
+    optional string errMsg              = 2; //错误提示说明
+}
+
+//命令字(获取用户的勋章列表)：knights.honor.userHonorList
+message UserHonorListReq {
+    optional uint64 uuid                = 1; //用户ID
+    optional uint64 lastReqTime         = 2; //上次请求时间
+}
+
+message UserHonorListRsp {
+    required uint32 retCode             = 1; //返回码，0代表成功，非0值失败
+    optional string errMsg              = 2; //错误提示说明
+    optional UserHonorList honorList    = 3; //用户拥有的荣誉列表
+    repeated UserHonor newActivity      = 4; //新激活的荣誉
+}
+
+//命令字(查看勋章详情)：knights.honor.honorInfo
+message HonorInfoReq {
+    optional uint32 honorId             = 1; //荣誉勋章或者荣誉证书的ID
+    optional uint32 page                = 2; //拥有改该荣誉的用户列表分页页码，目前一页20个
+}
+
+message HonorInfoRsp {
+    required uint32 retCode             = 1; //返回码，0代表成功，非0值失败
+    optional string errMsg              = 2; //错误提示说明
+    optional HonorInfo HonorInfo        = 3; //荣誉详情
+    repeated UserInfo ownerList         = 4; //拥有改荣誉的用户列表
+    optional bool hasNextPage           = 5; //是否还有下一页
+    optional UserInfo producerUserInfo  = 6; //荣誉制作者信息
+    optional ActivityInfo activityInfo  = 7; //活动信息
+}
+
+
+//---------------------------------圣杯------------------
+//命令字：knights.honor.activeHolyCupGame
+//激活圣杯游戏接口
+message ActiveHolyCupGameReq {
+    optional uint64 uuid                    = 1;
+    optional string packageName             = 2;
+    optional string apkSign                 = 3;
+}
+message ActiveHolyCupGameRsp {
+    required uint32 retCode                 = 1; //返回码，0代表成功，非0值失败
+    optional string errMsg                  = 2; //错误提示说明
+}
+
+//命令字：knights.honor.gainHolyCup
+//获取圣杯游戏接口
+message GainHolyCupReq {
+    optional uint64 uuid                    = 1;
+    optional string packageName             = 2;
+    optional string apkSign                 = 3;
+    optional uint32 cupId                   = 4;
+    optional string screen                  = 5; //截屏地址
+}
+message GainHolyCupRsp {
+    required uint32 retCode                 = 1; //返回码，0代表成功，非0值失败
+    optional string errMsg                  = 2; //错误提示说明
+}
+
+//命令字：knights.honor.getHolyCupCounter
+//获取用户圣杯计数
+message GetHolyCupCounterReq {
+    optional uint64 uuid                    = 1;
+}
+message GetHolyCupCounterRsp {
+    required uint32 retCode                 = 1; //返回码，0代表成功，非0值失败
+    optional string errMsg                  = 2; //错误提示说明
+    repeated HolyCupCounter cupCounter      = 3;
+    optional uint32 playGameCnt             = 4; //用户激活的含有圣杯的游戏数量
+}
+
+//命令字：knights.honor.getUserHolyCupList
+//获取用户圣杯列表
+message GetUserHolyCupListReq {
+    optional uint64 uuid                    = 1;
+    optional uint32 page                    = 2;
+    optional uint32 pageSize                = 3;
+}
+message GetUserHolyCupListRsp {
+    required uint32 retCode                         = 1; //返回码，0代表成功，非0值失败
+    optional string errMsg                          = 2; //错误提示说明
+    repeated HolyCupCounter cupCounter              = 3;
+    optional uint32 playGameCnt                     = 4; //征战圣杯游戏数
+    optional uint32 gainHolyCupCnt                  = 5; //获得圣杯数
+    repeated GameHolyCupCounter gameHolyCupCounter  = 6;
+    optional bool hasMore                           = 7;
+}
+
+//命令字：knights.honor.getHolyCupGameList
+//获取游戏圣杯列表
+message GetHolyCupGameListReq {
+    optional uint64 uuid                            = 1;
+}
+message GetHolyCupGameListRsp {
+    required uint32 retCode                         = 1; //返回码，0代表成功，非0值失败
+    optional string errMsg                          = 2; //错误提示说明
+    repeated GameHolyCupCounter gameHolyCupCounter  = 3;
+}
+
+//命令字：knights.honor.getGameHolyCupList
+//获取指定游戏圣杯游戏列表
+message GetGameHolyCupListReq {
+    optional uint64 uuid                            = 1;
+    optional uint64 gameId                          = 2;
+}
+message GetGameHolyCupListRsp {
+    required uint32 retCode                         = 1; //返回码，0代表成功，非0值失败
+    optional string errMsg                          = 2; //错误提示说明
+    optional uint32 activeCnt                       = 3; //激活数
+    repeated HolyCupRecord gainCups                 = 4; //已获取圣杯列表
+    repeated HolyCup unGainCups                     = 5; //未获取圣杯列表
+    optional uint32 gameActiveCnt                   = 6; //激活改游戏的人数
+    optional bool conqueror                         = 7; //是否是征服者
+    optional bool firstConqueror                    = 8; //是否是第一征服者
+    optional HolyCupRecord gainConquerorCup         = 9; //如果未获得征服者圣杯，该字段为空
+    optional HolyCupRecord gainFirstConquerorCup    = 10;//如果未获得第一征服者圣杯，该字段为空
+}
+
+//命令字：knights.honor.getHolyCupUserList
+//获得圣杯的用户列表
+message GetHolyCupUserListReq {
+    optional uint64 uuid                            = 1;
+    optional uint64 gameId                          = 2;
+    optional uint64 cupId                           = 3;
+    optional uint32 page                            = 4;
+    optional uint32 pageSize                        = 5;
+}
+message GetHolyCupUserListRsp {
+    required uint32 retCode                         = 1; //返回码，0代表成功，非0值失败
+    optional string errMsg                          = 2; //错误提示说明
+    repeated GainHolyCupUser gainUser               = 4; //获取圣杯的用户列表
+    optional uint32 gainHolyUserCount               = 5; //获得圣杯的用户总数
+    optional uint32 activeCount                     = 6; //激活改游戏的人数
+}
+
+//命令字：knights.honor.getHolyCupGainRecord
+message GetHolyCupGainRecordReq {
+    optional uint64 uuid                            = 1;
+    optional string packageName                     = 2; //包名
+    optional uint32 holyCupId                       = 3; //圣杯ID
+}
+
+message GetHolyCupGainRecordRsp{
+    required uint32 retCode                         = 1; //返回码，0代表成功，非0值失败
+    optional string errMsg                          = 2; //错误提示说明
+    optional HolyCupRecord holyCupRecord            = 3; //获取记录
+    optional HolyCup holyCup                        = 4; //圣杯详情
+    optional uint64 gameId                          = 5; //游戏ID
+    optional uint32 gameActivatedCount              = 6; //游戏激活数
+}
+
+
+//存储用户获取的荣誉列表，包含史诗荣誉和荣誉证书，存储的字段根据knights.honor.userHonorList接口的需要变更，存储是可能需要根据一些规则做些排序。
+//key：k_user_honor_${uuid}
+message UserHonorList {
+    repeated UserHonor epicList         = 1; //史诗勋章列表
+    repeated UserHonor certificateList  = 2; //荣誉之证列表
+}
+
+//存储所有荣誉的信息
+//key：k_honor_info_list,使用HonorInfo作为存储结构
+message HonorInfoList {
+    repeated HonorInfo epicHonorList        = 1; //所用史诗荣誉的配置信息
+    repeated HonorInfo certificateHonorList = 2; //所用荣誉之证的配置信息
+}
+
+//存储每个荣誉都有哪些用户获取。按照获取时间由近到远排序
+//key:k_honor_owner_${honorId}
+message HonorOwnerIdList {
+    repeated UserHonor userHonor        = 1; //只用到序号为1、2的字段
+}
+
+
+//------------------------------------------圣杯相关----------------
+//圣杯配置数据
+//key:k_holycup_${gameId}
+message GameHolyCup {
+    optional uint64 gameId              = 1; //游戏ID
+    optional uint32 activeCnt           = 2; //激活人数
+    repeated HolyCup holyCups           = 3; //圣杯列表
+}
+
+//用户获取圣杯列表
+//key:k_user_hclist_${uuid}
+message UserHolyCupList {
+    optional uint64 uuid                            = 1;
+    repeated GameHolyCupRecord gameHolyCupRecords   = 2; //游戏圣杯列表
+}
+
+//获取圣杯用户列表
+//key:k_hc_gain_user_${gameId}_${cupId}
+message GainHolyCupUserList {
+    optional uint64 gameId                          = 1; //游戏ID
+    optional uint32 cupId                           = 2; //圣杯ID
+    repeated GainHolyCupUser gainHolyCupUsers       = 3;
+}
+
+//第一征服者记录
+//key:k_firs_owner_${gameId}
+message FirstGainAllHolyCup {
+    optional uint64 uuid                = 1;
+    optional uint64 gameId              = 2;
+    optional uint64 gainTime            = 3;
+}
+
+
+//用户荣誉变更流水
+message UserHonorChangeLog {
+    required uint64 uuid                = 1; //用户ID
+    required uint32 honorId             = 2; //荣誉ID
+    required uint32 operateType         = 3; //操作类型，1=增加荣誉，2=剥夺荣誉，3=佩戴荣誉
+    optional uint64 operateTimestamp    = 4; //操作时间戳，毫秒
+}
+
+//用户拥有的荣誉信息
+message UserHonor {
+    optional uint64 uuid                = 1;
+    optional uint64 gainTime            = 2; //获取时间
+    optional bool honorActivited        = 3; //是否已经激活改荣誉
+    optional bool isWeared              = 4; //是否佩戴该荣誉勋章
+    optional uint32 honorId             = 5; //荣誉ID，用来做kv存储
+    optional HonorInfo honorInfo        = 6; //荣誉的详情，请求返回时才有该字段
+}
+
+
+//--------------------------------------圣杯相关---------------------------
+
+message GainHolyCupUser {
+    optional uint64 uuid                = 1;
+    optional uint64 gainTime            = 2;
+    optional UserInfo userInfo          = 3;
+}
+
+message HolyCupRecord {
+    optional uint64 uuid                = 1;
+    optional uint64 gameId              = 2; //游戏ID
+    optional uint32 cupId               = 3; //圣杯ID
+    optional uint32 cupType             = 4; //圣杯类型 1=金杯 2=银杯 3=铜杯 4=征服者 5=第一征服者
+    optional string screen              = 5; //截屏图地址
+    optional uint64 gainTime            = 6; //获取圣杯时间
+    optional HolyCup holyCup            = 7; //圣杯详情
+}
+
+message GameHolyCupRecord {
+    optional uint64 gameId                  = 1; //游戏ID
+    optional uint64 activeTime              = 2; //激活时间
+    repeated HolyCupRecord holyCupRecords   = 3;
+}
+
+message HolyCupCounter {
+    optional uint32 cupType         = 1;
+    optional uint32 count           = 2;
+}
+
+message GameHolyCupCounter {
+    optional GameInfo game           = 1;
+    repeated HolyCupCounter counter  = 2;
+    optional uint32 totalCnt         = 3;
+    optional uint32 gainCnt          = 4;
+    repeated HolyCupCounter allCount = 5;//每种类型圣杯的总数量
+
+}

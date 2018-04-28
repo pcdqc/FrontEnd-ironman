@@ -1,0 +1,97 @@
+syntax = "proto2";
+package com.wali.knights.proto;
+
+option java_package = "com.wali.knights.proto";
+option java_outer_classname = "AuthUploadFileProto";
+
+//文件上传前的授权签名，如果文件已存在则重用之前的FileInfo信息，否则进行签名也返回新的FileInfo信息
+//参数解释见 http://ks3.ksyun.com/doc/api/index.html 请求签名部分
+
+//cmd:mzone.mfas.auth
+
+
+enum AuthType {
+    DEFAULT = 0;//服务器随机分配bucket,
+    HEAD = 1;//头像业务，服务器分配固定的bucket和固定格式的objectKey，objectKey格式为：${vuid}_${time}.${suffix},time:当前时间精确到秒，suffix:头像文件后缀名
+    LOG = 2;
+    PIC = 3;
+    ANIMATION = 4;
+    USER_PIC = 5;
+    USER_ID = 6;
+    USER_VIDEO = 7;
+    USER_WALLPAPER = 8;
+
+  }
+ //文件上传前的授权签名，如果文件已存在则重用之前的FileInfo信息，否则进行签名也返回新的FileInfo信息
+//cmd:voip.mfas.auth 多聊
+//cmd:on.mfas.auth   速聊
+//cmd:mzone.mfas.auth  社区化项目
+//cmd:zhibo.mfas.auth  直播
+//参数解释见 http://ks3.ksyun.com/doc/api/index.html 请求签名部分
+message AuthRequest{
+required uint64 rid = 1;//客户端产生，服务器返回的AuthResponse会原样带回AuthRequest的rid，客户端根据rid来将Request和Response配对
+required string httpVerb = 2;
+required string contentMd5 = 3;
+required string contentType = 4;
+required string date = 5;//2015-07-08号之前版本传递客户端时间；2015-07-08号之后版本传""空串，服务器会用当前时间生成date并返回给客户端
+required string canonicalizedHeaders = 6;
+required string suffix = 7;//文件后缀名，如上传图片文件则为jpg png等，多聊、速聊项目会使用该字段；社区化mzone、opensdk项目去掉了url里带后缀名的设计， 服务器将不会使用该字段
+optional AuthType authType = 8 [default = DEFAULT]; //目前只有头像业务才需要传
+optional uint64 vuid = 9;//当前用户vuid，对头像业务用来拼接objectKey
+optional uint32 appid = 10;//服务端调用时填写该字段
+}
+
+message AuthResponse{
+required uint64 rid = 1; //服务器返回的AuthResponse会原样带回AuthRequest的rid，客户端根据rid来将Request和Response配对
+required uint32 errorCode = 2;//0表示成功,
+optional bool reusable= 3;//当reusable=true时不用上传文件，直接重用之前的上传结果；否则要重新上传。
+optional string authorization = 4;//当reusable=true时有值，否则无值
+optional FileInfo fileInfo = 5;//当reusable=true时就是之前的上传结果，否则为即将使用的上传信息
+optional string errorMsg = 6;//错误原因
+optional string date = 7;//当AuthRequest.date=""时，AuthResponse.date=服务器端时间，否则AuthResponse.date=AuthRequest.date
+}
+
+//[暂时还没工作，请不要使用]上传成功后告知服务器存储记录用于后续同一个文件的去重秒传
+//cmd:voip.mfas.reuse
+message ReuseRequest{
+required uint64 rid = 1;//服务器返回的AuthResponse会原样带回AuthRequest的rid，客户端根据rid来将Request和Response配对
+required string contentMd5 = 2;//参数解释见 http://ks3.ksyun.com/doc/api/index.html 请求签名部分
+required FileInfo fileInfo = 3;//文件上传信息
+}
+
+//[暂时还没工作，请不要使用]
+message ReuseResponse{
+required uint64 rid = 1;//服务器返回的AuthResponse会原样带回AuthRequest的rid，客户端根据rid来将Request和Response配对
+required uint32 errorCode = 2;//0表示成功
+optional string errorMsg = 3;//错误原因
+}
+
+//代表一个小文件的信息
+message FileInfo{
+required string bucket = 1;//参数解释见 http://ks3.ksyun.com/doc/api/index.html
+required string objectKey = 2;//参数解释见 http://ks3.ksyun.com/doc/api/index.html
+required string url = 3;//金山云小文件url
+required string acl = 4;//小文件权限
+optional string download_url = 5;//下载地址
+optional string upload_url = 6;//上传地址
+optional string download_domain = 7;//下载域名
+optional string upload_domain = 8;//上传域名
+}
+
+
+message MultipartAuthRequest{
+required uint64 rid = 1; //服务器返回的AuthResponse会原样带回AuthRequest的rid，客户端根据rid来将Request和Response配对
+required string resource = 2;
+required string date = 3;
+required string httpVerb = 4;
+required string contentMd5 = 5;
+required string contentType = 6;
+required string acl = 7;
+optional string bucket = 8;//这个字段做新米聊mluvideo分片的时候加的，原来没这个字段默认使用了wangyan3的ak/sk，新bucket在zhangyankai下的要传分片对应的bucket
+}
+
+message MultipartAuthResponse{
+required uint64 rid = 1; //服务器返回的AuthResponse会原样带回AuthRequest的rid，客户端根据rid来将Request和Response配对
+required uint32 errorCode = 2;//0表示成功,
+optional string multipart_authorization = 3;//分片上传时授权先系
+}
