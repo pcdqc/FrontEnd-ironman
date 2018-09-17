@@ -1,6 +1,6 @@
 var a = 1 ;
 function foo(){
-  // console.log(a);
+  console.log(a);
   var a = 2;
   console.log(a);
   return function () {
@@ -10,3 +10,4 @@ function foo(){
 }
 var b = foo();
 b();
+

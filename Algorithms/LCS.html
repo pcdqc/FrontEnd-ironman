@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>LCS</title>
+</head>
+<body>
+<script>
+
+function LongCommonSequence(str1, str2) {
+  let maxLen = 0,index = 0;
+  let arrLCS = new Array(str1.length+1)
+  for (let i = 0,len = str1.length + 1; i < len; i++) {
+    arrLCS[i] = new Array(str2.length+1);
+    for (let j = 0;j < str2.length + 1; j++) {
+      arrLCS[i][j] = 0;
+    }
+  }
+  for (let i = 0; i <= str1.length; i++) {
+    for (let j = 0; j <= str2.length; j++){
+      if(i == 0 || j == 0) {
+        arrLCS[i][j] = 0;
+      } else {
+        if( str1[i-1] == str2[j-1]){
+          arrLCS[i][j] = arrLCS[i-1][j-1] + 1;
+        } else {
+          arrLCS[i][j] = 0;
+        }
+      }
+      if(arrLCS[i][j] > maxLen){
+        maxLen = arrLCS[i][j];
+        index = i;
+      }
+    }
+  }
+  let str = "";
+  if(maxLen == 0){
+    return ""
+  } else {
+    for (let i = index - maxLen; i < index; i++){
+      str += str1[i];
+    }
+    return str;
+  }
+}
+var str1="1abcdefg";
+var str2="2xyzabcd";let a = LongCommonSequence(str1, str2);  // abcd
+console.log(a)
+</script>
+</body>
+</html>
