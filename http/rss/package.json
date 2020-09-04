@@ -14,7 +14,7 @@
     "morgan": "~1.6.1",
     "serve-favicon": "~2.3.0",
 
-    "mongodb":"1.4.15",
+    "mongodb":"3.6.1",
 
     "express-session":"1.9.1",
     "connect-mongo":"0.4.1",
